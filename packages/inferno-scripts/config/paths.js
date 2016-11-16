@@ -54,7 +54,7 @@ function resolveOwn(relativePath) {
   return path.resolve(__dirname, relativePath);
 }
 
-// config before eject: we're in ./node_modules/react-scripts/config/
+// config before eject: we're in ./node_modules/inferno-scripts/config/
 module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
@@ -70,8 +70,8 @@ module.exports = {
 };
 // @remove-on-eject-end
 
-// config before publish: we're in ./packages/react-scripts/config/
-if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
+// config before publish: we're in ./packages/inferno-scripts/config/
+if (__dirname.indexOf(path.join('packages', 'inferno-scripts', 'config')) !== -1) {
   module.exports = {
     appBuild: resolveOwn('../../../build'),
     appPublic: resolveOwn('../template/public'),

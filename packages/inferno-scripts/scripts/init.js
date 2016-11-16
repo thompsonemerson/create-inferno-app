@@ -24,10 +24,10 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
 
   // Setup the script rules
   appPackage.scripts = {
-    'start': 'react-scripts start',
-    'build': 'react-scripts build',
-    'test': 'react-scripts test --env=jsdom',
-    'eject': 'react-scripts eject'
+    'start': 'inferno-scripts start',
+    'build': 'inferno-scripts build',
+    'test': 'inferno-scripts test --env=jsdom',
+    'eject': 'inferno-scripts eject'
   };
 
   fs.writeFileSync(
@@ -58,14 +58,14 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
     }
   });
 
-  // Run another npm install for react and react-dom
-  console.log('Installing react and react-dom from npm...');
+  // Run another npm install for inferno and inferno-component
+  console.log('Installing inferno@beta9 and inferno-component@beta9 from npm...');
   console.log();
   // TODO: having to do two npm installs is bad, can we avoid it?
   var args = [
     'install',
-    'react',
-    'react-dom',
+    'inferno@beta9',
+    'inferno-component@beta9',
     '--save',
     verbose && '--verbose'
   ].filter(function(e) { return e; });

@@ -10,7 +10,6 @@
 var createJestConfig = require('../utils/createJestConfig');
 var fs = require('fs');
 var path = require('path');
-var prompt = require('react-dev-utils/prompt');
 var rimrafSync = require('rimraf').sync;
 var spawnSync = require('cross-spawn').sync;
 var chalk = require('chalk');
@@ -109,10 +108,10 @@ prompt(
   delete appPackage.scripts['eject'];
   Object.keys(appPackage.scripts).forEach(function (key) {
     appPackage.scripts[key] = appPackage.scripts[key]
-      .replace(/react-scripts (\w+)/g, 'node scripts/$1.js');
+      .replace(/inferno-scripts (\w+)/g, 'node scripts/$1.js');
     console.log(
       '  Replacing ' +
-      cyan('"react-scripts ' + key + '"') +
+      cyan('"inferno-scripts ' + key + '"') +
       ' with ' +
       cyan('"node scripts/' + key + '.js"')
     );

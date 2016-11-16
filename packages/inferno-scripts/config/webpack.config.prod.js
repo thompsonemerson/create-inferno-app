@@ -49,7 +49,7 @@ var publicUrl = ensureSlash(homepagePathname, false);
 var env = getClientEnvironment(publicUrl);
 
 // Assert this just to be safe.
-// Development builds of React are slow and not intended for production.
+// Development builds of Inferno are slow and not intended for production.
 if (env['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.');
 }
@@ -90,16 +90,11 @@ module.exports = {
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebookincubator/create-react-app/issues/290
-    extensions: ['.js', '.json', '.jsx', ''],
-    alias: {
-      // Support React Native Web
-      // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
-    }
+    extensions: ['.js', '.json', '.jsx', '']
   },
   // @remove-on-eject-begin
   // Resolve loaders (webpack plugins for CSS, images, transpilation) from the
-  // directory of `react-scripts` itself rather than the project directory.
+  // directory of `inferno-scripts` itself rather than the project directory.
   resolveLoader: {
     root: paths.ownNodeModules,
     moduleTemplates: ['*-loader']
@@ -124,7 +119,7 @@ module.exports = {
         // @remove-on-eject-begin
         query: {
           babelrc: false,
-          presets: [require.resolve('babel-preset-react-app')],
+          presets: [require.resolve('babel-preset-inferno-app')],
         },
         // @remove-on-eject-end
       },
@@ -197,7 +192,7 @@ module.exports = {
           '>1%',
           'last 4 versions',
           'Firefox ESR',
-          'not ie < 9', // React doesn't support IE8 anyway
+          'not ie < 9', // Inferno doesn't support IE8 anyway
         ]
       }),
     ];
@@ -230,7 +225,7 @@ module.exports = {
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
-    // Otherwise React will be compiled in the very slow development mode.
+    // Otherwise Inferno will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env),
     // This helps ensure the builds are consistent if source hasn't changed:
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -239,7 +234,7 @@ module.exports = {
     // Minify the code.
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        screw_ie8: true, // React doesn't support IE8
+        screw_ie8: true, // Inferno doesn't support IE8
         warnings: false
       },
       mangle: {
