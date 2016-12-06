@@ -11,7 +11,7 @@
     "index.js"
   ],
   "dependencies": {
-    "babel-plugin-inferno": "1.1.0-beta13",
+    "babel-plugin-inferno": "1.2.0-beta13",
     "babel-plugin-transform-class-properties": "6.16.0",
     "babel-plugin-transform-es2015-destructuring": "6.16.0",
     "babel-plugin-transform-es2015-parameters": "6.17.0",
