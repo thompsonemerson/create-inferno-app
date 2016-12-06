@@ -59,13 +59,13 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
   });
 
   // Run another npm install for inferno and inferno-component
-  console.log('Installing inferno@beta25 and inferno-component@beta25 from npm...');
+  console.log('Installing inferno@beta31 and inferno-component@beta31 from npm...');
   console.log();
   // TODO: having to do two npm installs is bad, can we avoid it?
   var args = [
     'install',
-    'inferno@beta25',
-    'inferno-component@beta25',
+    'inferno@beta31',
+    'inferno-component@beta31',
     '--save',
     verbose && '--verbose'
   ].filter(function(e) { return e; });
