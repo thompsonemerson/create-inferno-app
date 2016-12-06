@@ -7,7 +7,7 @@
 # of patent rights can be found in the PATENTS file in the same directory.
 
 # ******************************************************************************
-# This creates an app with the global CLI and `react-scripts` from the source.
+# This creates an app with the global CLI and `inferno-scripts` from the source.
 # It is useful for testing the end-to-end flow locally.
 # ******************************************************************************
 
@@ -48,23 +48,23 @@ cd ..
 root_path=$PWD
 
 # ******************************************************************************
-# Pack react-scripts so we can verify they work.
+# Pack inferno-scripts so we can verify they work.
 # ******************************************************************************
 
 # Install all our packages
 $root_path/node_modules/.bin/lerna bootstrap
 
-cd packages/react-scripts
+cd packages/inferno-scripts
 
 # Save package.json because we're going to touch it
 cp package.json package.json.orig
 
-# Like bundle-deps, this script modifies packages/react-scripts/package.json,
+# Like bundle-deps, this script modifies packages/inferno-scripts/package.json,
 # copying own dependencies (those in the `packages` dir) to bundledDependencies
 node $root_path/tasks/bundle-own-deps.js
 
-# Finally, pack react-scripts
-scripts_path=$root_path/packages/react-scripts/`npm pack`
+# Finally, pack inferno-scripts
+scripts_path=$root_path/packages/inferno-scripts/`npm pack`
 
 # Restore package.json
 rm package.json
@@ -77,7 +77,7 @@ mv package.json.orig package.json
 
 # Go back to the root directory and run the command from here
 cd $root_path
-node packages/create-react-app/index.js --scripts-version=$scripts_path "$@"
+node packages/create-inferno-app/index.js --scripts-version=$scripts_path "$@"
 
 # Cleanup
 cleanup

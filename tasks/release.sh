@@ -45,7 +45,7 @@ rm -rf ~/.npm
 npm cache clear
 npm install
 
-cd packages/react-scripts
+cd packages/inferno-scripts
 # Force dedupe
 npm dedupe
 

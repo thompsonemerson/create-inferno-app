@@ -18,7 +18,7 @@ function cleanup {
   echo 'Cleaning up.'
   cd $root_path
   # Uncomment when snapshot testing is enabled by default:
-  # rm ./packages/react-scripts/template/src/__snapshots__/App.test.js.snap
+  # rm ./packages/inferno-scripts/template/src/__snapshots__/App.test.js.snap
   rm -rf $temp_cli_path $temp_app_path
 }
 
@@ -36,8 +36,8 @@ function handle_exit {
   exit
 }
 
-function create_react_app {
-  node "$temp_cli_path"/node_modules/create-react-app/index.js $*
+function create_inferno_app {
+  node "$temp_cli_path"/node_modules/create-inferno-app/index.js $*
 }
 
 # Exit the script with a helpful error message when any error is encountered
@@ -59,7 +59,7 @@ npm install
 ./node_modules/.bin/eslint --ignore-path .gitignore ./
 
 # ******************************************************************************
-# First, test the create-react-app development environment.
+# First, test the create-inferno-app development environment.
 # This does not affect our users but makes sure we can develop it.
 # ******************************************************************************
 
@@ -81,22 +81,22 @@ CI=true npm test
 npm start -- --smoke-test
 
 # ******************************************************************************
-# Next, pack react-scripts and create-react-app so we can verify they work.
+# Next, pack inferno-scripts and create-inferno-app so we can verify they work.
 # ******************************************************************************
 
 # Pack CLI
-cd $root_path/packages/create-react-app
+cd $root_path/packages/create-inferno-app
 cli_path=$PWD/`npm pack`
 
-# Go to react-scripts
-cd $root_path/packages/react-scripts
+# Go to inferno-scripts
+cd $root_path/packages/inferno-scripts
 
-# Like bundle-deps, this script modifies packages/react-scripts/package.json,
+# Like bundle-deps, this script modifies packages/inferno-scripts/package.json,
 # copying own dependencies (those in the `packages` dir) to bundledDependencies
 node $root_path/tasks/bundle-own-deps.js
 
-# Finally, pack react-scripts
-scripts_path=$root_path/packages/react-scripts/`npm pack`
+# Finally, pack inferno-scripts
+scripts_path=$root_path/packages/inferno-scripts/`npm pack`
 
 # ******************************************************************************
 # Now that we have packed them, create a clean app folder and install them.
@@ -111,10 +111,10 @@ npm install $cli_path
 # Install the app in a temporary location
 temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
 cd $temp_app_path
-create_react_app --scripts-version=$scripts_path test-app
+create_inferno_app --scripts-version=$scripts_path test-app
 
 # ******************************************************************************
-# Now that we used create-react-app to create an app depending on react-scripts,
+# Now that we used create-inferno-app to create an app depending on inferno-scripts,
 # let's make sure all npm scripts are in the working state.
 # ******************************************************************************
 
@@ -146,10 +146,10 @@ npm start -- --smoke-test
 echo yes | npm run eject
 
 # ...but still link to the local packages
-npm link $root_path/packages/babel-preset-react-app
-npm link $root_path/packages/eslint-config-react-app
-npm link $root_path/packages/react-dev-utils
-npm link $root_path/packages/react-scripts
+npm link $root_path/packages/babel-preset-inferno-app
+npm link $root_path/packages/eslint-config-inferno-app
+npm link $root_path/packages/inferno-dev-utils
+npm link $root_path/packages/inferno-scripts
 
 # Test the build
 npm run build
@@ -177,35 +177,35 @@ npm start -- --smoke-test
 # ******************************************************************************
 
 cd $temp_app_path
-create_react_app --scripts-version=0.4.0 test-app-version-number
+create_inferno_app --scripts-version=0.4.0 test-app-version-number
 cd test-app-version-number
 
 # Check corresponding scripts version is installed.
-test -e node_modules/react-scripts
-grep '"version": "0.4.0"' node_modules/react-scripts/package.json
+test -e node_modules/inferno-scripts
+grep '"version": "0.7.2"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a tarball url
 # ******************************************************************************
 
 cd $temp_app_path
-create_react_app --scripts-version=https://registry.npmjs.org/react-scripts/-/react-scripts-0.4.0.tgz test-app-tarball-url
+create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.7.2.tgz test-app-tarball-url
 cd test-app-tarball-url
 
 # Check corresponding scripts version is installed.
-test -e node_modules/react-scripts
-grep '"version": "0.4.0"' node_modules/react-scripts/package.json
+test -e node_modules/inferno-scripts
+grep '"version": "0.7.2"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
-# Test --scripts-version with a custom fork of react-scripts
+# Test --scripts-version with a custom fork of inferno-scripts
 # ******************************************************************************
 
 cd $temp_app_path
-create_react_app --scripts-version=react-scripts-fork test-app-fork
+create_inferno_app --scripts-version=inferno-scripts-fork test-app-fork
 cd test-app-fork
 
 # Check corresponding scripts version is installed.
-test -e node_modules/react-scripts-fork
+test -e node_modules/inferno-scripts-fork
 
 # Cleanup
 cleanup

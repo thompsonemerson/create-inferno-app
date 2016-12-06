@@ -1,18 +1,18 @@
-# react-dev-utils
+# inferno-dev-utils
 
-This package includes some utilities used by [Create React App](https://github.com/facebookincubator/create-react-app).  
+This package includes some utilities used by [Create Inferno App](https://github.com/infernojs/create-inferno-app).  
 Please refer to its documentation:
 
-* [Getting Started](https://github.com/facebookincubator/create-react-app/blob/master/README.md#getting-started) – How to create a new app.
-* [User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
+* [Getting Started](https://github.com/infernojs/create-inferno-app/blob/master/README.md#getting-started) – How to create a new app.
+* [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md) – How to develop apps bootstrapped with Create Inferno App.
 
-## Usage in Create React App Projects
+## Usage in Create Inferno App Projects
 
-These utilities come by default with [Create React App](https://github.com/facebookincubator/create-react-app), which includes it by default. **You don’t need to install it separately in Create React App projects.**
+These utilities come by default with [Create Inferno App](https://github.com/infernojs/create-inferno-app), which includes it by default. **You don’t need to install it separately in Create Inferno App projects.**
 
-## Usage Outside of Create React App
+## Usage Outside of Create Inferno App
 
-If you don’t use Create React App, or if you [ejected](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-run-eject), you may keep using these utilities. Their development will be aligned with Create React App, so major versions of these utilities may come out relatively often. Feel free to fork or copy and paste them into your projects if you’d like to have more control over them, or feel free to use the old versions. Not all of them are React-specific, but we might make some of them more React-specific in the future.
+If you don’t use Create Inferno App, or if you [ejected](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#npm-run-eject), you may keep using these utilities. Their development will be aligned with Create Inferno App, so major versions of these utilities may come out relatively often. Feel free to fork or copy and paste them into your projects if you’d like to have more control over them, or feel free to use the old versions. Not all of them are Inferno-specific, but we might make some of them more Inferno-specific in the future.
 
 ### Entry Points
 
@@ -26,7 +26,7 @@ It works in tandem with [HtmlWebpackPlugin](https://github.com/ampedandwired/htm
 ```js
 var path = require('path');
 var HtmlWebpackPlugin = require('html-dev-plugin');
-var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+var InterpolateHtmlPlugin = require('inferno-dev-utils/InterpolateHtmlPlugin');
 
 // Webpack config
 var publicUrl = '/my-custom-url';
@@ -64,7 +64,7 @@ See [#186](https://github.com/facebookincubator/create-react-app/issues/186) for
 
 ```js
 var path = require('path');
-var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+var WatchMissingNodeModulesPlugin = require('inferno-dev-utils/WatchMissingNodeModulesPlugin');
 
 // Webpack config
 module.exports = {
@@ -89,7 +89,7 @@ If a file is not found, prints a warning message and returns `false`.
 
 ```js
 var path = require('path');
-var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
+var checkRequiredFiles = require('inferno-dev-utils/checkRequiredFiles');
 
 if (!checkRequiredFiles([
   path.resolve('public/index.html'),
@@ -104,7 +104,7 @@ if (!checkRequiredFiles([
 Clears the console, hopefully in a cross-platform way.
 
 ```js
-var clearConsole = require('react-dev-utils/clearConsole');
+var clearConsole = require('inferno-dev-utils/clearConsole');
 
 clearConsole();
 console.log('Just cleared the screen!');
@@ -151,7 +151,7 @@ Otherwise, falls back to [opn](https://github.com/sindresorhus/opn) behavior.
 
 ```js
 var path = require('path');
-var openBrowser = require('react-dev-utils/openBrowser');
+var openBrowser = require('inferno-dev-utils/openBrowser');
 
 if (openBrowser('http://localhost:3000')) {
   console.log('The browser tab has been opened!');
@@ -167,7 +167,7 @@ If you mistype the answer, we'll always take it as a "no".
 You can control the behavior on `<Enter>` with `isYesDefault`.
 
 ```js
-var prompt = require('react-dev-utils/prompt');
+var prompt = require('inferno-dev-utils/prompt');
 prompt(
   'Are you sure you want to eat all the candy?',
   /* isYesDefault */ false
@@ -195,7 +195,7 @@ module.exports = {
     // stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    'react-dev-utils/webpackHotDevClient',
+    'inferno-dev-utils/webpackHotDevClient',
     'src/index'
   ],
   // ...
