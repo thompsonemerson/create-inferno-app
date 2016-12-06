@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-inferno-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Babel preset used by Create Inferno App",
   "repository": "infernojs/create-react-app",
   "license": "BSD-3-Clause",
@@ -11,7 +11,7 @@
     "index.js"
   ],
   "dependencies": {
-    "babel-plugin-inferno": "1.1.0-beta8",
+    "babel-plugin-inferno": "1.1.0-beta13",
     "babel-plugin-transform-class-properties": "6.16.0",
     "babel-plugin-transform-es2015-destructuring": "6.16.0",
     "babel-plugin-transform-es2015-parameters": "6.17.0",
