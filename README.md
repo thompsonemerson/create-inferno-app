@@ -126,7 +126,7 @@ A copy of the user guide will be created as `README.md` in your project folder.
 
 ## How to Update to New Versions?
 
-Please refer to the [User Guide](https://github.com/facebookincubator/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#updating-to-new-releases) for this and other information.
+Please refer to the [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#updating-to-new-releases) for this and other information.
 
 ## Philosophy
 
