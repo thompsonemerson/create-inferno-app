@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 
 const packagesDir = path.join(__dirname, '../packages');
-const pkgFilename = path.join(packagesDir, 'react-scripts/package.json');
+const pkgFilename = path.join(packagesDir, 'inferno-scripts/package.json');
 const data = require(pkgFilename);
 
 data.bundledDependencies = fs.readdirSync(packagesDir)
