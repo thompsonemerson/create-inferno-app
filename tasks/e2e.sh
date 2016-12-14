@@ -177,19 +177,19 @@ npm start -- --smoke-test
 # ******************************************************************************
 
 cd $temp_app_path
-create_inferno_app --scripts-version=0.7.10 test-app-version-number
+create_inferno_app --scripts-version=0.7.11 test-app-version-number
 cd test-app-version-number
 
 # Check corresponding scripts version is installed.
 test -e node_modules/inferno-scripts
-grep '"version": "0.7.10"' node_modules/inferno-scripts/package.json
+grep '"version": "0.7.11"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a tarball url
 # ******************************************************************************
 
 cd $temp_app_path
-create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.7.10.tgz test-app-tarball-url
+create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.7.11.tgz test-app-tarball-url
 cd test-app-tarball-url
 
 # Check corresponding scripts version is installed.

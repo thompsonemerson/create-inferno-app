@@ -1,6 +1,6 @@
 {
   "name": "inferno-scripts",
-  "version": "0.7.10",
+  "version": "0.7.11",
   "description": "Configuration and scripts for Create Inferno App.",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
