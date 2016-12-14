@@ -37,6 +37,5 @@ function prompt(question, isYesDefault) {
       return resolve(isYes);
     });
   });
-};
-
+}
 module.exports = prompt;

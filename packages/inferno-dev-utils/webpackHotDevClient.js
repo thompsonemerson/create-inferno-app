@@ -260,7 +260,7 @@ connection.onmessage = function(e) {
   default:
     // Do nothing.
   }
-}
+};
 
 // Is there a newer version of this code available?
 function isUpdateAvailable() {
@@ -318,4 +318,4 @@ function tryApplyUpdates(onHotUpdateSuccess) {
       }
     );
   }
-};
+}
