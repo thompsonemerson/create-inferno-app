@@ -36,7 +36,7 @@ Tell us what actually happens.
 
 Run these commands in the project folder and fill in their results:
 
-1. `npm ls react-scripts` (if you haven’t ejected): 
+1. `npm ls inferno-scripts` (if you haven’t ejected):
 2. `node -v`: 
 3. `npm -v`:
 
@@ -55,5 +55,5 @@ Alternatively, you could copy your app that experiences the problem and start re
 
 Push to GitHub and paste the link here.
 
-By doing this, you're helping the Create React App contributors a big time!
+By doing this, you're helping the Create Inferno App contributors a big time!
 Demonstrable issues gets fixed faster.
