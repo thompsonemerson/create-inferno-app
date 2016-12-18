@@ -104,16 +104,16 @@ The [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/pac
 - [Updating to New Releases](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#updating-to-new-releases)
 - [Folder Structure](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#folder-structure)
 - [Available Scripts](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#available-scripts)
-- [Displaying Lint Output in the Editor](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#displaying-lint-output-in-the-editor)
+- [Syntax Highlighting in the Editor](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#syntax-highlighting-in-the-editor)
 - [Installing a Dependency](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#installing-a-dependency)
-- [Importing a Component](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#importing-a-component)
+- [Changing the Page `<title>`](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#changing-the-page-title)
 - [Adding a Stylesheet](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-a-stylesheet)
 - [Post-Processing CSS](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#post-processing-css)
 - [Adding Images and Fonts](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-images-and-fonts)
 - [Using the `public` Folder](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#using-the-public-folder)
 - [Adding Bootstrap](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-bootstrap)
 - [Adding Flow](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-flow)
-- [Adding Custom Environment Variables](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-custom-environment-variables)
+- [Using Global Variables](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#using-global-variables)
 - [Can I Use Decorators?](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#can-i-use-decorators)
 - [Integrating with a Node Backend](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#integrating-with-a-node-backend)
 - [Proxying API Requests in Development](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#proxying-api-requests-in-development)
@@ -121,6 +121,9 @@ The [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/pac
 - [Generating Dynamic `<meta>` Tags on the Server](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#generating-dynamic-meta-tags-on-the-server)
 - [Running Tests](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#running-tests)
 - [Deployment](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#deployment)
+- [Developing Components in Isolation](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation)
+- [Making a Progressive Web App](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#making-a-progressive-web-app)
+- [Troubleshooting](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#troubleshooting)
 
 A copy of the user guide will be created as `README.md` in your project folder.
 
@@ -132,7 +135,7 @@ Please refer to the [User Guide](https://github.com/infernojs/create-inferno-app
 
 * **One Dependency:** There is just one build dependency. It uses Webpack, Babel, ESLint, and other amazing projects, but provides a cohesive curated experience on top of them.
 
-* **Zero Configuration:** There are no configuration files or command line options. Configuring both development and production builds is handled for you so you can focus on writing code.
+* **Convention over Configuration:** You don't need to configure anything by default. Reasonably good configuration of both development and production builds is handled for you so you can focus on writing code.
 
 * **No Lock-In:** You can “eject” to a custom setup at any time. Run a single command, and all the configuration and build dependencies will be moved directly into your project, so you can pick up right where you left off.
 

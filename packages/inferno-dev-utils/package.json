@@ -1,6 +1,6 @@
 {
   "name": "inferno-dev-utils",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Webpack utilities used by Create Inferno App",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
@@ -14,6 +14,7 @@
     "clearConsole.js",
     "checkRequiredFiles.js",
     "formatWebpackMessages.js",
+    "getProcessForPort.js",
     "InterpolateHtmlPlugin.js",
     "openChrome.applescript",
     "openBrowser.js",

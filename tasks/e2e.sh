@@ -14,6 +14,11 @@
 # Start in tasks/ even if run from root directory
 cd "$(dirname "$0")"
 
+# CLI and app temporary locations
+# http://unix.stackexchange.com/a/84980
+temp_cli_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_cli_path'`
+temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
+
 function cleanup {
   echo 'Cleaning up.'
   cd $root_path
@@ -55,6 +60,21 @@ root_path=$PWD
 
 npm install
 
+# If the node version is < 4, the script should just give an error.
+if [ `node --version | sed -e 's/^v//' -e 's/\..\+//g'` -lt 4 ]
+then
+  cd $temp_app_path
+  err_output=`node "$root_path"/packages/create-inferno-app/index.js test-node-version 2>&1 > /dev/null || echo ''`
+  [[ $err_output =~ You\ are\ running\ Node ]] && exit 0 || exit 1
+fi
+
+if [ "$USE_YARN" = "yes" ]
+then
+  # Install Yarn so that the test can use it to install packages.
+  npm install -g yarn@0.17.10 # TODO: remove version when https://github.com/yarnpkg/yarn/issues/2142 is fixed.
+  yarn cache clean
+fi
+
 # Lint own code
 ./node_modules/.bin/eslint --ignore-path .gitignore ./
 
@@ -69,7 +89,6 @@ npm run build
 test -e build/*.html
 test -e build/static/js/*.js
 test -e build/static/css/*.css
-test -e build/static/media/*.svg
 test -e build/favicon.ico
 
 # Run tests with CI flag
@@ -91,25 +110,29 @@ cli_path=$PWD/`npm pack`
 # Go to inferno-scripts
 cd $root_path/packages/inferno-scripts
 
-# Like bundle-deps, this script modifies packages/inferno-scripts/package.json,
-# copying own dependencies (those in the `packages` dir) to bundledDependencies
-node $root_path/tasks/bundle-own-deps.js
+# Save package.json because we're going to touch it
+cp package.json package.json.orig
+
+# Replace own dependencies (those in the `packages` dir) with the local paths
+# of those packages.
+node $root_path/tasks/replace-own-deps.js
 
 # Finally, pack inferno-scripts
 scripts_path=$root_path/packages/inferno-scripts/`npm pack`
+
+# Restore package.json
+rm package.json
+mv package.json.orig package.json
 
 # ******************************************************************************
 # Now that we have packed them, create a clean app folder and install them.
 # ******************************************************************************
 
 # Install the CLI in a temporary location
-# http://unix.stackexchange.com/a/84980
-temp_cli_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_cli_path'`
 cd $temp_cli_path
 npm install $cli_path
 
 # Install the app in a temporary location
-temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
 cd $temp_app_path
 create_inferno_app --scripts-version=$scripts_path test-app
 
@@ -127,7 +150,6 @@ npm run build
 test -e build/*.html
 test -e build/static/js/*.js
 test -e build/static/css/*.css
-test -e build/static/media/*.svg
 test -e build/favicon.ico
 
 # Run tests with CI flag
@@ -157,7 +179,6 @@ npm run build
 test -e build/*.html
 test -e build/static/js/*.js
 test -e build/static/css/*.css
-test -e build/static/media/*.svg
 test -e build/favicon.ico
 
 # Run tests, overring the watch option to disable it.
@@ -171,30 +192,29 @@ npm test -- --watch=no
 # Test the server
 npm start -- --smoke-test
 
-
 # ******************************************************************************
 # Test --scripts-version with a version number
 # ******************************************************************************
 
 cd $temp_app_path
-create_inferno_app --scripts-version=0.7.12 test-app-version-number
+create_inferno_app --scripts-version=0.8.1 test-app-version-number
 cd test-app-version-number
 
 # Check corresponding scripts version is installed.
 test -e node_modules/inferno-scripts
-grep '"version": "0.8.0"' node_modules/inferno-scripts/package.json
+grep '"version": "0.8.1"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a tarball url
 # ******************************************************************************
 
 cd $temp_app_path
-create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.7.12.tgz test-app-tarball-url
+create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.8.1.tgz test-app-tarball-url
 cd test-app-tarball-url
 
 # Check corresponding scripts version is installed.
 test -e node_modules/inferno-scripts
-grep '"version": "0.7.2"' node_modules/inferno-scripts/package.json
+grep '"version": "0.8.1"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a custom fork of inferno-scripts
