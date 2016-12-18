@@ -182,7 +182,7 @@ cd test-app-version-number
 
 # Check corresponding scripts version is installed.
 test -e node_modules/inferno-scripts
-grep '"version": "0.7.12"' node_modules/inferno-scripts/package.json
+grep '"version": "0.8.0"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a tarball url
