@@ -197,24 +197,24 @@ npm start -- --smoke-test
 # ******************************************************************************
 
 cd $temp_app_path
-create_inferno_app --scripts-version=0.8.1 test-app-version-number
+create_inferno_app --scripts-version=0.9.0 test-app-version-number
 cd test-app-version-number
 
 # Check corresponding scripts version is installed.
 test -e node_modules/inferno-scripts
-grep '"version": "0.8.1"' node_modules/inferno-scripts/package.json
+grep '"version": "0.9.0"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a tarball url
 # ******************************************************************************
 
 cd $temp_app_path
-create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.8.1.tgz test-app-tarball-url
+create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.9.0.tgz test-app-tarball-url
 cd test-app-tarball-url
 
 # Check corresponding scripts version is installed.
 test -e node_modules/inferno-scripts
-grep '"version": "0.8.1"' node_modules/inferno-scripts/package.json
+grep '"version": "0.9.0"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a custom fork of inferno-scripts
