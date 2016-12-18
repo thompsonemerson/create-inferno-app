@@ -1,6 +1,6 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
-import logo from './logo.svg';
+import Logo from './logo';
 import './App.css';
 
 class App extends Component {
@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <Logo width="80" height="80"/>
           <h2>Welcome to Inferno</h2>
         </div>
         <p className="App-intro">
