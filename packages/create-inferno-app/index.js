@@ -191,7 +191,7 @@ function run(root, appName, version, verbose, originalDirectory) {
 }
 
 function getInstallPackage(version) {
-    var packageToInstall = 'Inferno-scripts';
+    var packageToInstall = 'inferno-scripts';
     var validSemver = semver.valid(version);
     if (validSemver) {
         packageToInstall += '@' + validSemver;
