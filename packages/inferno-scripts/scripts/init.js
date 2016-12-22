@@ -75,7 +75,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
       verbose && '--verbose'
     ].filter(function(e) { return e; });
   }
-  args.push('inferno@beta37', 'inferno-component@beta37', 'babel-plugin-inferno@1.0.0-beta17');
+  args.push('inferno@beta37', 'inferno-component@beta37', 'babel-plugin-inferno@1.3.0-beta17');
 
   console.log('Installing inferno and inferno-component using ' + command + '...');
   console.log();
