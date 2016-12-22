@@ -29,11 +29,11 @@ var formatWebpackMessages = require('inferno-dev-utils/formatWebpackMessages');
 var getProcessForPort = require('inferno-dev-utils/getProcessForPort');
 var openBrowser = require('inferno-dev-utils/openBrowser');
 var prompt = require('inferno-dev-utils/prompt');
-var pathExists = require('path-exists');
+var fs = require('fs');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 
-var useYarn = pathExists.sync(paths.yarnLockFile);
+var useYarn = fs.existsSync(paths.yarnLockFile);
 var cli = useYarn ? 'yarn' : 'npm';
 var isInteractive = process.stdout.isTTY;
 
