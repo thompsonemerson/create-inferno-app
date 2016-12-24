@@ -1,6 +1,6 @@
 # Create Inferno App
 
-Note: this is a port of the awesome [Create React App](https://github.com/facebookincubator/create-inferno-app) for [Inferno](https://github.com/trueadm/inferno).
+Note: this is a port of the awesome [Create React App](https://github.com/facebookincubator/create-react-app) for [Inferno](https://github.com/trueadm/inferno).
 
 Create Inferno apps with no build configuration.
 
