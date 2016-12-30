@@ -71,11 +71,10 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
     args = [
       'install',
       '--save',
-      '--save-exact',
       verbose && '--verbose'
     ].filter(function(e) { return e; });
   }
-  args.push('inferno@beta42', 'inferno-component@beta42', 'babel-plugin-inferno@1.3.0-beta17');
+  args.push('inferno', 'inferno-component', 'babel-plugin-inferno');
 
   console.log('Installing inferno and inferno-component using ' + command + '...');
   console.log();

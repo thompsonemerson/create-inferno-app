@@ -14,7 +14,7 @@
     "babel-eslint": "7.1.1",
     "eslint": "3.12.2",
     "eslint-config-inferno-app": "0.4.0",
-    "eslint-plugin-flowtype": "2.29.1",
+    "eslint-plugin-flowtype": "2.29.2",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-inferno": "6.8.0",

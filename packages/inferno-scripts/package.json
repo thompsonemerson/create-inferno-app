@@ -39,7 +39,7 @@
     "eslint": "3.12.2",
     "eslint-config-inferno-app": "^0.4.0",
     "eslint-loader": "1.6.1",
-    "eslint-plugin-flowtype": "2.29.1",
+    "eslint-plugin-flowtype": "2.29.2",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-inferno": "6.8.0",
@@ -51,7 +51,7 @@
     "html-webpack-plugin": "2.24.1",
     "http-proxy-middleware": "0.17.3",
     "inferno-dev-utils": "^0.5.0",
-    "jest": "18.0.0",
+    "jest": "18.1.0",
     "json-loader": "0.5.4",
     "object-assign": "4.1.0",
     "path-exists": "3.0.0",
@@ -67,8 +67,8 @@
     "whatwg-fetch": "2.0.1"
   },
   "devDependencies": {
-    "inferno": "1.0.0-beta42",
-    "inferno-component": "1.0.0-beta42"
+    "inferno": "1.0.2",
+    "inferno-component": "1.0.2"
   },
   "optionalDependencies": {
     "fsevents": "1.0.15"
