@@ -54,7 +54,7 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    // require.resolve('react-dev-utils/webpackHotDevClient'), << Inferno does not support hot-reloading just yet
+    require.resolve('inferno-dev-utils/webpackHotDevClient'),
     // We ship a few polyfills by default:
     require.resolve('./polyfills'),
     // Finally, this is your app's code:
@@ -212,7 +212,7 @@ module.exports = {
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env),
     // This is necessary to emit hot updates (currently CSS only):
-    // new webpack.HotModuleReplacementPlugin(), <<< Inferno does not support just yet
+    new webpack.HotModuleReplacementPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebookincubator/create-react-app/issues/240
