@@ -1,6 +1,6 @@
 {
   "name": "inferno-scripts",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Configuration and scripts for Create Inferno App.",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
@@ -50,7 +50,7 @@
     "gzip-size": "3.0.0",
     "html-webpack-plugin": "2.24.1",
     "http-proxy-middleware": "0.17.3",
-    "inferno-dev-utils": "^0.5.0",
+    "inferno-dev-utils": "^0.5.1",
     "jest": "18.1.0",
     "json-loader": "0.5.4",
     "object-assign": "4.1.0",
