@@ -35,14 +35,14 @@
     "cross-spawn": "5.0.1",
     "css-loader": "0.26.1",
     "detect-port": "1.0.7",
-    "dotenv": "2.0.0",
-    "eslint": "3.12.2",
+    "dotenv": "4.0.0",
+    "eslint": "3.13.1",
     "eslint-config-inferno-app": "^0.4.0",
     "eslint-loader": "1.6.1",
     "eslint-plugin-flowtype": "2.29.2",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
-    "eslint-plugin-inferno": "6.8.0",
+    "eslint-plugin-inferno": "6.9.0",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
     "filesize": "3.3.0",
@@ -67,10 +67,10 @@
     "whatwg-fetch": "2.0.1"
   },
   "devDependencies": {
-    "inferno": "1.0.6",
-    "inferno-component": "1.0.6"
+    "inferno": "1.1.2",
+    "inferno-component": "1.1.2"
   },
   "optionalDependencies": {
-    "fsevents": "1.0.15"
+    "fsevents": "1.0.17"
   }
 }
