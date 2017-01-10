@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-inferno-app",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Babel preset used by Create Inferno App",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
