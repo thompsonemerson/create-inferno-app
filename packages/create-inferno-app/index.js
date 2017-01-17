@@ -80,7 +80,7 @@ var program = require('commander')
         console.log('    It is not needed unless you specifically want to use a fork.');
         console.log();
         console.log('    If you have any problems, do not hesitate to file an issue:');
-        console.log('      ' + chalk.cyan('https://github.com/facebookincubator/create-Inferno-app/issues/new'));
+        console.log('      ' + chalk.cyan('https://github.com/infernojs/create-inferno-app/issues/new'));
         console.log();
     })
     .parse(process.argv)
