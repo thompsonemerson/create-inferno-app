@@ -84,7 +84,7 @@ You will see the build errors and lint warnings in the console.
 
 ### `npm test`
 
-Runs the test watcher in an interactive mode.  
+Runs the test watcher in an interactive mode.<br>
 By default, runs tests related to files changes since the last commit.
 
 [Read more about testing.](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#running-tests)
@@ -143,7 +143,7 @@ Please refer to the [User Guide](https://github.com/infernojs/create-inferno-app
 
 **If you’re getting started** with Inferno, use `create-inferno-app` to automate the build of your app. There is no configuration file, and `inferno-scripts` is the only extra build dependency in your `package.json`. Your environment will have everything you need to build a modern Inferno app:
 
-* Inferno, JSX, and ES6 support.
+* Inferno, JSX, ES6, and Flow syntax support.
 * Language extras beyond ES6 like the object spread operator.
 * A dev server that lints for common errors.
 * Import CSS and image files directly from JavaScript.

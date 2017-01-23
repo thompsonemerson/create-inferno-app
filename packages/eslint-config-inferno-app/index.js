@@ -186,7 +186,6 @@ module.exports = {
     // is always an error.
     'import/no-webpack-loader-syntax': 'error',
 
-    // https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
     'inferno/jsx-equals-spacing': ['warn', 'never'],
     'inferno/jsx-no-duplicate-props': ['warn', { ignoreCase: true }],
     'inferno/jsx-no-undef': 'error',

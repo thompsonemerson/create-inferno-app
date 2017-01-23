@@ -60,7 +60,7 @@ and then run `npm start` or `npm run build`.
 
 ## Cutting a Release
 
-1. Tag all merged pull requests that go into the release with the relevant milestone. Each merged PR should also be labeled with one of the [labels](https://github.com/facebookincubator/create-react-app/labels) named `tag: ...` to indicate what kind of change it is.
+1. Tag all merged pull requests that go into the release with the relevant milestone. Each merged PR should also be labeled with one of the [labels](https://github.com/facebookincubator/create-inferno-app/labels) named `tag: ...` to indicate what kind of change it is.
 2. Close the milestone.
 3. In most releases, only `inferno-scripts` needs to be released. If you don’t have any changes to the `packages/create-inferno-app` folder, you don’t need to bump its version or publish it (the publish script will publish only changed packages).
 4. Note that files in `packages/create-inferno-app` should be modified with extreme caution. Since it’s a global CLI, any version of `create-inferno-app` (global CLI) including very old ones should work with the latest version of `inferno-scripts`. 

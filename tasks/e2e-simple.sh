@@ -192,66 +192,6 @@ npm test -- --watch=no
 # Test the server
 npm start -- --smoke-test
 
-# ******************************************************************************
-# Test --scripts-version with a version number
-# ******************************************************************************
-
-cd $temp_app_path
-create_inferno_app --scripts-version=0.9.0 test-app-version-number
-cd test-app-version-number
-
-# Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts
-grep '"version": "0.9.0"' node_modules/inferno-scripts/package.json
-
-# ******************************************************************************
-# Test --scripts-version with a tarball url
-# ******************************************************************************
-
-cd $temp_app_path
-create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.9.0.tgz test-app-tarball-url
-cd test-app-tarball-url
-
-# Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts
-grep '"version": "0.9.0"' node_modules/inferno-scripts/package.json
-
-# ******************************************************************************
-# Test --scripts-version with a custom fork of inferno-scripts
-# ******************************************************************************
-
-cd $temp_app_path
-create_inferno_app --scripts-version=inferno-scripts-fork test-app-fork
-cd test-app-fork
-
-# Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts-fork
-
-# ******************************************************************************
-# Test nested folder path as the project name
-# ******************************************************************************
-
-#Testing a path that exists
-cd $temp_app_path
-mkdir test-app-nested-paths-t1
-cd test-app-nested-paths-t1
-mkdir -p test-app-nested-paths-t1/aa/bb/cc/dd
-create_react_app test-app-nested-paths-t1/aa/bb/cc/dd
-cd test-app-nested-paths-t1/aa/bb/cc/dd
-npm start -- --smoke-test
-
-#Testing a path that does not exist
-cd $temp_app_path
-create_react_app test-app-nested-paths-t2/aa/bb/cc/dd
-cd test-app-nested-paths-t2/aa/bb/cc/dd
-npm start -- --smoke-test
-
-#Testing a path that is half exists
-cd $temp_app_path
-mkdir -p test-app-nested-paths-t3/aa
-create_react_app test-app-nested-paths-t3/aa/bb/cc/dd
-cd test-app-nested-paths-t3/aa/bb/cc/dd
-npm start -- --smoke-test
 
 # Cleanup
 cleanup
