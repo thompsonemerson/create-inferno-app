@@ -13,6 +13,7 @@ class App extends Component {
         </div>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
+            <svg viewBox="0 0 100 100" className={""}><use xlink:href="icons/sprite.svg#websocket"></use></svg>
         </p>
       </div>
     );
