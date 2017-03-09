@@ -97,6 +97,10 @@ It correctly bundles Inferno in production mode and optimizes the build for the 
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
+## Usage with React (through inferno-compat)
+
+You can use React components with create-inferno-app. All you have is to do is install inferno-compat (npm install --save inferno-compat) and React and ReactDOM will be already aliased to inferno-compat. After installing it you can import any React dependent library or use any code that imports React and that should work fine.
+
 ## User Guide
 
 The [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md) includes information on different topics, such as:
