@@ -1,0 +1,5 @@
+node_modules/
+build
+my-app*
+packages/inferno-scripts/template
+packages/inferno-scripts/fixtures

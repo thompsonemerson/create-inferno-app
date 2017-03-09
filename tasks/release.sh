@@ -10,7 +10,7 @@
 # This releases an update to the `inferno-scripts` package.
 # Don't use `npm publish` for it.
 # Read the release instructions:
-# https://github.com/facebookincubator/create-inferno-app/blob/master/CONTRIBUTING.md#cutting-a-release
+# https://github.com/infernojs/create-inferno-app/blob/master/CONTRIBUTING.md#cutting-a-release
 # ******************************************************************************
 
 # Start in tasks/ even if run from root directory
@@ -39,6 +39,6 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1;
 fi
 
-cd $root_path
+cd "$root_path"
 # Go!
 ./node_modules/.bin/lerna publish --independent "$@"

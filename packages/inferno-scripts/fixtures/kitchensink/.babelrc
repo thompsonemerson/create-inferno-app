@@ -1,3 +1,4 @@
 {
-  "presets": ["latest"]
+  "presets": ["inferno-app"],
+  "plugins": ["babel-plugin-transform-es2015-modules-commonjs"]
 }

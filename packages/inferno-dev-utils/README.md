@@ -1,6 +1,6 @@
 # inferno-dev-utils
 
-This package includes some utilities used by [Create Inferno App](https://github.com/infernojs/create-inferno-app).  
+This package includes some utilities used by [Create Inferno App](https://github.com/infernojs/create-inferno-app).<br>
 Please refer to its documentation:
 
 * [Getting Started](https://github.com/infernojs/create-inferno-app/blob/master/README.md#getting-started) – How to create a new app.
@@ -20,7 +20,7 @@ There is no single entry point. You can only import individual top-level modules
 
 #### `new InterpolateHtmlPlugin(replacements: {[key:string]: string})`
 
-This Webpack plugin lets us interpolate custom variables into `index.html`.  
+This Webpack plugin lets us interpolate custom variables into `index.html`.<br>
 It works in tandem with [HtmlWebpackPlugin](https://github.com/ampedandwired/html-webpack-plugin) 2.x via its [events](https://github.com/ampedandwired/html-webpack-plugin#events).
 
 ```js
@@ -58,9 +58,9 @@ module.exports = {
 
 #### `new WatchMissingNodeModulesPlugin(nodeModulesPath: string)`
 
-This Webpack plugin ensures `npm install <library>` forces a project rebuild.  
-We’re not sure why this isn't Webpack's default behavior.  
-See [#186](https://github.com/facebookincubator/create-react-app/issues/186) for details.
+This Webpack plugin ensures `npm install <library>` forces a project rebuild.<br>
+We’re not sure why this isn't Webpack's default behavior.<br>
+See [#186](https://github.com/infernojs/create-inferno-app/issues/186) for details.
 
 ```js
 var path = require('path');
@@ -74,7 +74,7 @@ module.exports = {
     // If you require a missing module and then `npm install` it, you still have
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
-    // See https://github.com/facebookincubator/create-react-app/issues/186
+    // See https://github.com/infernojs/create-inferno-app/issues/186
     new WatchMissingNodeModulesPlugin(path.resolve('node_modules'))
   ],
   // ...
@@ -83,8 +83,8 @@ module.exports = {
 
 #### `checkRequiredFiles(files: Array<string>): boolean`
 
-Makes sure that all passed files exist.  
-Filenames are expected to be absolute.  
+Makes sure that all passed files exist.<br>
+Filenames are expected to be absolute.<br>
 If a file is not found, prints a warning message and returns `false`.
 
 ```js
@@ -110,6 +110,29 @@ clearConsole();
 console.log('Just cleared the screen!');
 ```
 
+#### `FileSizeReporter`
+
+##### `measureFileSizesBeforeBuild(buildFolder: string): Promise<OpaqueFileSizes>`
+
+Captures JS and CSS asset sizes inside the passed `buildFolder`. Save the result value to compare it after the build.
+
+##### `printFileSizesAfterBuild(webpackStats: WebpackStats, previousFileSizes: OpaqueFileSizes)`
+
+Prints the JS and CSS asset sizes after the build, and includes a size comparison with `previousFileSizes` that were captured earlier using `measureFileSizesBeforeBuild()`.
+
+```js
+var {
+  measureFileSizesBeforeBuild,
+  printFileSizesAfterBuild,
+} = require('inferno-dev-utils/FileSizeReporter');
+
+measureFileSizesBeforeBuild(buildFolder).then(previousFileSizes => {
+  return cleanAndRebuild().then(webpackStats => {
+    printFileSizesAfterBuild(webpackStats, previousFileSizes);
+  });
+});
+```
+
 #### `formatWebpackMessages({errors: Array<string>, warnings: Array<string>}): {errors: Array<string>, warnings: Array<string>}`
 
 Extracts and prettifies warning and error messages from webpack [stats](https://github.com/webpack/docs/wiki/node.js-api#stats) object.
@@ -117,7 +140,7 @@ Extracts and prettifies warning and error messages from webpack [stats](https://
 ```js
 var webpack = require('webpack');
 var config = require('../config/webpack.config.dev');
-var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+var formatWebpackMessages = require('inferno-dev-utils/formatWebpackMessages');
 
 var compiler = webpack(config);
 
@@ -161,8 +184,8 @@ getProcessForPort(3000);
 
 #### `openBrowser(url: string): boolean`
 
-Attempts to open the browser with a given URL.  
-On Mac OS X, attempts to reuse an existing Chrome tab via AppleScript.  
+Attempts to open the browser with a given URL.<br>
+On Mac OS X, attempts to reuse an existing Chrome tab via AppleScript.<br>
 Otherwise, falls back to [opn](https://github.com/sindresorhus/opn) behavior.
 
 
@@ -179,8 +202,8 @@ if (openBrowser('http://localhost:3000')) {
 
 This function displays a console prompt to the user.
 
-By convention, "no" should be the conservative choice.  
-If you mistype the answer, we'll always take it as a "no".  
+By convention, "no" should be the conservative choice.<br>
+If you mistype the answer, we'll always take it as a "no".<br>
 You can control the behavior on `<Enter>` with `isYesDefault`.
 
 ```js

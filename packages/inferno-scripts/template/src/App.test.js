@@ -1,4 +1,4 @@
-import Inferno, { render } from 'inferno';
+import { render } from 'inferno';
 import App from './App';
 
 it('renders without crashing', () => {

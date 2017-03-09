@@ -21,10 +21,8 @@ temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
 
 function cleanup {
   echo 'Cleaning up.'
-  cd $root_path
-  # Uncomment when snapshot testing is enabled by default:
-  # rm ./packages/inferno-scripts/template/src/__snapshots__/App.test.js.snap
-  rm -rf $temp_cli_path $temp_app_path
+  cd "$root_path"
+  rm -rf "$temp_cli_path" "$temp_app_path"
 }
 
 # Error messages are redirected to stderr
@@ -41,8 +39,13 @@ function handle_exit {
   exit
 }
 
-function create_inferno_app {
-  node "$temp_cli_path"/node_modules/create-inferno-app/index.js $*
+# Check for the existence of one or more files.
+function exists {
+  for f in $*; do
+    test -e "$f"
+  done
+}
+
 }
 
 # Exit the script with a helpful error message when any error is encountered
@@ -60,18 +63,10 @@ root_path=$PWD
 
 npm install
 
-# If the node version is < 4, the script should just give an error.
-if [ `node --version | sed -e 's/^v//' -e 's/\..\+//g'` -lt 4 ]
-then
-  cd $temp_app_path
-  err_output=`node "$root_path"/packages/create-inferno-app/index.js test-node-version 2>&1 > /dev/null || echo ''`
-  [[ $err_output =~ You\ are\ running\ Node ]] && exit 0 || exit 1
-fi
-
 if [ "$USE_YARN" = "yes" ]
 then
   # Install Yarn so that the test can use it to install packages.
-  npm install -g yarn@0.17.10 # TODO: remove version when https://github.com/yarnpkg/yarn/issues/2142 is fixed.
+  npm install -g yarn
   yarn cache clean
 fi
 
@@ -80,54 +75,92 @@ fi
 # ******************************************************************************
 
 # Pack CLI
-cd $root_path/packages/create-inferno-app
+cd "$root_path"/packages/create-inferno-app
 cli_path=$PWD/`npm pack`
 
 # Install the CLI in a temporary location
-cd $temp_cli_path
-npm install $cli_path
+cd "$temp_cli_path"
+npm install "$cli_path"
 
 # ******************************************************************************
 # Test --scripts-version with a version number
 # ******************************************************************************
 
-cd $temp_app_path
+cd "$temp_app_path"
 create_inferno_app --scripts-version=0.4.0 test-app-version-number
 cd test-app-version-number
 
 # Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts
+exists node_modules/inferno-scripts
 grep '"version": "0.4.0"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a tarball url
 # ******************************************************************************
 
-cd $temp_app_path
+cd "$temp_app_path"
 create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.4.0.tgz test-app-tarball-url
 cd test-app-tarball-url
 
 # Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts
+exists node_modules/inferno-scripts
 grep '"version": "0.4.0"' node_modules/inferno-scripts/package.json
 
 # ******************************************************************************
 # Test --scripts-version with a custom fork of inferno-scripts
 # ******************************************************************************
 
-cd $temp_app_path
+cd "$temp_app_path"
 create_inferno_app --scripts-version=inferno-scripts-fork test-app-fork
 cd test-app-fork
 
 # Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts-fork
+exists node_modules/inferno-scripts-fork
+
+# ******************************************************************************
+# Test project folder is deleted on failing package installation
+# ******************************************************************************
+
+cd "$temp_app_path"
+# we will install a non-existing package to simulate a failed installataion.
+create_inferno_app --scripts-version=`date +%s` test-app-should-not-exist || true
+# confirm that the project folder was deleted
+test ! -d test-app-should-not-exist
+
+# ******************************************************************************
+# Test project folder is not deleted when creating app over existing folder
+# ******************************************************************************
+
+cd "$temp_app_path"
+mkdir test-app-should-remain
+echo '## Hello' > ./test-app-should-remain/README.md
+# we will install a non-existing package to simulate a failed installataion.
+create_inferno_app --scripts-version=`date +%s` test-app-should-remain || true
+# confirm the file exist
+test -e test-app-should-remain/README.md
+# confirm only README.md is the only file in the directory
+if [ "$(ls -1 ./test-app-should-remain | wc -l | tr -d '[:space:]')" != "1" ]; then
+  false
+fi
+
+# ******************************************************************************
+# Test --scripts-version with a scoped fork tgz of inferno-scripts
+# ******************************************************************************
+
+cd $temp_app_path
+curl "https://registry.npmjs.org/@enoah_netzach/inferno-scripts/-/inferno-scripts-0.9.0.tgz" -o enoah-scripts-0.9.0.tgz
+create_inferno_app --scripts-version=$temp_app_path/enoah-scripts-0.9.0.tgz test-app-scoped-fork-tgz
+cd test-app-scoped-fork-tgz
+
+# Check corresponding scripts version is installed.
+exists node_modules/@enoah_netzach/inferno-scripts
 
 # ******************************************************************************
 # Test nested folder path as the project name
 # ******************************************************************************
 
 #Testing a path that exists
-cd $temp_app_path
+cd "$temp_app_path"
 mkdir test-app-nested-paths-t1
 cd test-app-nested-paths-t1
 mkdir -p test-app-nested-paths-t1/aa/bb/cc/dd
@@ -136,13 +169,13 @@ cd test-app-nested-paths-t1/aa/bb/cc/dd
 npm start -- --smoke-test
 
 #Testing a path that does not exist
-cd $temp_app_path
+cd "$temp_app_path"
 create_inferno_app test-app-nested-paths-t2/aa/bb/cc/dd
 cd test-app-nested-paths-t2/aa/bb/cc/dd
 npm start -- --smoke-test
 
 #Testing a path that is half exists
-cd $temp_app_path
+cd "$temp_app_path"
 mkdir -p test-app-nested-paths-t3/aa
 create_inferno_app test-app-nested-paths-t3/aa/bb/cc/dd
 cd test-app-nested-paths-t3/aa/bb/cc/dd

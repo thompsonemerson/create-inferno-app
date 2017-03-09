@@ -1,10 +1,10 @@
 {
   "name": "create-inferno-app",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "keywords": [
     "inferno"
   ],
-  "description": "Create Inferno apps with no build configuration.",
+  "description": "Create Inferno Apps with no build configuration.",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
   "engines": {
@@ -14,7 +14,8 @@
     "url": "https://github.com/infernojs/create-inferno-app/issues"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "createInfernoApp.js"
   ],
   "bin": {
     "create-inferno-app": "./index.js"
@@ -22,8 +23,12 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "commander": "^2.9.0",
-    "cross-spawn": "^5.0.1",
-    "path-exists": "^3.0.0",
-    "semver": "^5.3.0"
+    "cross-spawn": "^5.1.0",
+    "fs-extra": "^2.0.0",
+    "hyperquest": "^2.1.2",
+    "semver": "^5.3.0",
+    "tar-pack": "^3.4.0",
+    "tmp": "0.0.31",
+    "validate-npm-package-name": "^3.0.0"
   }
 }
