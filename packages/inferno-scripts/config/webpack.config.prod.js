@@ -19,11 +19,6 @@ const InterpolateHtmlPlugin = require('inferno-dev-utils/InterpolateHtmlPlugin')
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
-// @remove-on-eject-begin
-// `path` is not used after eject - see https://github.com/infernojs/create-inferno-app/issues/1174
-const path = require('path');
-// @remove-on-eject-end
-
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -87,7 +82,7 @@ module.exports = {
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/infernojs/create-inferno-app/issues/253
-    modules: ['node_modules'].concat(paths.nodePaths),
+    modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
@@ -121,7 +116,9 @@ module.exports = {
             options: {
               // TODO: consider separate config for production,
               // e.g. to enable no-console and no-debugger only in production.
-              configFile: path.join(__dirname, '../eslintrc'),
+              baseConfig: {
+                extends: ['inferno-app'],
+              },
               useEslintrc: false,
             },
             // @remove-on-eject-end

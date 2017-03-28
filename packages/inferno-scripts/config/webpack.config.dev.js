@@ -19,11 +19,6 @@ const WatchMissingNodeModulesPlugin = require('inferno-dev-utils/WatchMissingNod
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
-// @remove-on-eject-begin
-// `path` is not used after eject - see https://github.com/infernojs/create-inferno-app/issues/1174
-const path = require('path');
-// @remove-on-eject-end
-
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/';
@@ -88,7 +83,7 @@ module.exports = {
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/infernojs/create-inferno-app/issues/253
-    modules: ['node_modules'].concat(paths.nodePaths),
+    modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
@@ -120,7 +115,9 @@ module.exports = {
             // @remove-on-eject-begin
             // Point ESLint to our predefined config.
             options: {
-              configFile: path.join(__dirname, '../eslintrc'),
+              baseConfig: {
+                extends: ['inferno-app'],
+              },
               useEslintrc: false,
             },
             // @remove-on-eject-end

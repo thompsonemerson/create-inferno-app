@@ -10,7 +10,7 @@ Create Inferno apps with no build configuration.
 Create Inferno App works on macOS, Windows, and Linux.<br>
 If something doesn’t work please [file an issue](https://github.com/infernojs/create-inferno-app/issues/new).
 
-## tl;dr
+## Quick Overview
 
 ```sh
 npm install -g create-inferno-app
@@ -24,6 +24,13 @@ Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
 When you’re ready to deploy to production, create a minified bundle with `npm run build`.
 
 <img src='https://camo.githubusercontent.com/506a5a0a33aebed2bf0d24d3999af7f582b31808/687474703a2f2f692e696d6775722e636f6d2f616d794e66434e2e706e67' width='600' alt='npm start'>
+
+### Get Started Immediately
+
+You **don’t** need to install or configure tools like Webpack or Babel.<br>
+They are preconfigured and hidden so that you can focus on the code.
+
+Just create a project, and you’re good to go.
 
 ## Getting Started
 
@@ -39,7 +46,7 @@ npm install -g create-inferno-app
 
 **We strongly recommend to use Node >= 6 and npm >= 3 for faster installation speed and better disk usage.** You can use [nvm](https://github.com/creationix/nvm#usage) to easily switch Node versions between different projects.
 
-**This tool doesn’t assume a Node backend**. The Node installation is only required for the build tools that rely on it locally, such as Webpack and Babel.
+**This tool doesn’t assume a Node backend**. The Node installation is only required for Create React App itself.
 
 ### Creating an App
 
@@ -203,6 +210,11 @@ All of them are transitive dependencies of the provided npm package.
 ## Contributing
 
 We'd love to have your helping hand on `create-inferno-app`! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on what we're looking for and how to get started.
+
+## React Native
+
+Looking for something similar, but for React Native?<br>
+Check out [Create React Native App](https://github.com/react-community/create-react-native-app/).
 
 ## Acknowledgements
 
