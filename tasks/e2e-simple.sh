@@ -21,10 +21,10 @@ temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
 
 function cleanup {
   echo 'Cleaning up.'
-  cd $root_path
+  cd "$root_path"
   # Uncomment when snapshot testing is enabled by default:
   # rm ./packages/inferno-scripts/template/src/__snapshots__/App.test.js.snap
-  rm -rf $temp_cli_path $temp_app_path
+  rm -rf "$temp_cli_path" $temp_app_path
 }
 
 # Error messages are redirected to stderr
@@ -42,7 +42,14 @@ function handle_exit {
 }
 
 function create_inferno_app {
-  node "$temp_cli_path"/node_modules/create-inferno-app/index.js $*
+  node "$temp_cli_path"/node_modules/create-inferno-app/index.js "$@"
+}
+
+# Check for the existence of one or more files.
+function exists {
+  for f in $*; do
+    test -e "$f"
+  done
 }
 
 # Exit the script with a helpful error message when any error is encountered
@@ -58,25 +65,39 @@ set -x
 cd ..
 root_path=$PWD
 
+# Prevent lerna bootstrap, we only want top-level dependencies
+cp package.json package.json.bak
+grep -v "lerna bootstrap" package.json > temp && mv temp package.json
 npm install
+mv package.json.bak package.json
+
+# We need to install create-inferno-app deps to test it
+cd "$root_path"/packages/create-inferno-app
+npm install
+cd "$root_path"
 
 # If the node version is < 4, the script should just give an error.
-if [ `node --version | sed -e 's/^v//' -e 's/\..\+//g'` -lt 4 ]
+if [[ `node --version | sed -e 's/^v//' -e 's/\..*//g'` -lt 4 ]]
 then
   cd $temp_app_path
   err_output=`node "$root_path"/packages/create-inferno-app/index.js test-node-version 2>&1 > /dev/null || echo ''`
   [[ $err_output =~ You\ are\ running\ Node ]] && exit 0 || exit 1
 fi
 
+# Still use npm install instead of directly calling lerna bootstrap to test
+# postinstall script functionality (one npm install should result in a working
+# project)
+npm install
+
 if [ "$USE_YARN" = "yes" ]
 then
   # Install Yarn so that the test can use it to install packages.
-  npm install -g yarn@0.17.10 # TODO: remove version when https://github.com/yarnpkg/yarn/issues/2142 is fixed.
+  npm install -g yarn
   yarn cache clean
 fi
 
 # Lint own code
-./node_modules/.bin/eslint --ignore-path .gitignore ./
+./node_modules/.bin/eslint --max-warnings 0 .
 
 # ******************************************************************************
 # First, test the create-inferno-app development environment.
@@ -86,15 +107,15 @@ fi
 # Test local build command
 npm run build
 # Check for expected output
-test -e build/*.html
-test -e build/static/js/*.js
-test -e build/static/css/*.css
-test -e build/favicon.ico
+exists build/*.html
+exists build/static/js/*.js
+exists build/static/css/*.css
+exists build/favicon.ico
 
 # Run tests with CI flag
 CI=true npm test
 # Uncomment when snapshot testing is enabled by default:
-# test -e template/src/__snapshots__/App.test.js.snap
+# exists template/src/__snapshots__/App.test.js.snap
 
 # Test local start command
 npm start -- --smoke-test
@@ -104,21 +125,21 @@ npm start -- --smoke-test
 # ******************************************************************************
 
 # Pack CLI
-cd $root_path/packages/create-inferno-app
+cd "$root_path"/packages/create-inferno-app
 cli_path=$PWD/`npm pack`
 
 # Go to inferno-scripts
-cd $root_path/packages/inferno-scripts
+cd "$root_path"/packages/inferno-scripts
 
 # Save package.json because we're going to touch it
 cp package.json package.json.orig
 
 # Replace own dependencies (those in the `packages` dir) with the local paths
 # of those packages.
-node $root_path/tasks/replace-own-deps.js
+node "$root_path"/tasks/replace-own-deps.js
 
 # Finally, pack inferno-scripts
-scripts_path=$root_path/packages/inferno-scripts/`npm pack`
+scripts_path="$root_path"/packages/inferno-scripts/`npm pack`
 
 # Restore package.json
 rm package.json
@@ -129,17 +150,72 @@ mv package.json.orig package.json
 # ******************************************************************************
 
 # Install the CLI in a temporary location
-cd $temp_cli_path
-npm install $cli_path
+cd "$temp_cli_path"
+
+# Initialize package.json before installing the CLI because npm will not install
+# the CLI properly in the temporary location if it is missing.
+npm init --yes
+
+# Now we can install the CLI from the local package.
+npm install "$cli_path"
 
 # Install the app in a temporary location
 cd $temp_app_path
-create_inferno_app --scripts-version=$scripts_path test-app
+create_inferno_app --scripts-version="$scripts_path" test-app
 
 # ******************************************************************************
 # Now that we used create-inferno-app to create an app depending on inferno-scripts,
 # let's make sure all npm scripts are in the working state.
 # ******************************************************************************
+
+function verify_env_url {
+  # Backup package.json because we're going to make it dirty
+  cp package.json package.json.orig
+
+  # Test default behavior
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 0 || exit 1
+
+  # Test relative path build
+  awk -v n=2 -v s="  \"homepage\": \".\"," 'NR == n {print s} {print}' package.json > tmp && mv tmp package.json
+
+  npm run build
+  # Disabled until this can be tested
+  # grep -F -R --exclude=*.map "../../static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"./static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
+
+  PUBLIC_URL="/anabsolute" npm run build
+  grep -F -R --exclude=*.map "/anabsolute/static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
+
+  # Test absolute path build
+  sed "2s/.*/  \"homepage\": \"\/testingpath\",/" package.json > tmp && mv tmp package.json
+
+  npm run build
+  grep -F -R --exclude=*.map "/testingpath/static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
+
+  PUBLIC_URL="https://www.example.net/overridetest" npm run build
+  grep -F -R --exclude=*.map "https://www.example.net/overridetest/static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
+  grep -F -R --exclude=*.map "testingpath/static" build/ -q; test $? -eq 1 || exit 1
+
+  # Test absolute url build
+  sed "2s/.*/  \"homepage\": \"https:\/\/www.example.net\/testingpath\",/" package.json > tmp && mv tmp package.json
+
+  npm run build
+  grep -F -R --exclude=*.map "/testingpath/static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
+
+  PUBLIC_URL="https://www.example.net/overridetest" npm run build
+  grep -F -R --exclude=*.map "https://www.example.net/overridetest/static/" build/ -q; test $? -eq 0 || exit 1
+  grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
+  grep -F -R --exclude=*.map "testingpath/static" build/ -q; test $? -eq 1 || exit 1
+
+  # Restore package.json
+  rm package.json
+  mv package.json.orig package.json
+}
 
 # Enter the app directory
 cd test-app
@@ -147,18 +223,22 @@ cd test-app
 # Test the build
 npm run build
 # Check for expected output
-test -e build/*.html
-test -e build/static/js/*.js
-test -e build/static/css/*.css
-test -e build/favicon.ico
+exists build/*.html
+exists build/static/js/*.js
+exists build/static/css/*.css
+exists build/static/media/*.svg
+exists build/favicon.ico
 
 # Run tests with CI flag
 CI=true npm test
 # Uncomment when snapshot testing is enabled by default:
-# test -e src/__snapshots__/App.test.js.snap
+# exists src/__snapshots__/App.test.js.snap
 
 # Test the server
 npm start -- --smoke-test
+
+# Test environment handling
+verify_env_url
 
 # ******************************************************************************
 # Finally, let's check that everything still works after ejecting.
@@ -168,18 +248,18 @@ npm start -- --smoke-test
 echo yes | npm run eject
 
 # ...but still link to the local packages
-npm link $root_path/packages/babel-preset-inferno-app
-npm link $root_path/packages/eslint-config-inferno-app
-npm link $root_path/packages/inferno-dev-utils
-npm link $root_path/packages/inferno-scripts
+npm link "$root_path"/packages/babel-preset-inferno-app
+npm link "$root_path"/packages/eslint-config-inferno-app
+npm link "$root_path"/packages/inferno-dev-utils
+npm link "$root_path"/packages/inferno-scripts
 
 # Test the build
 npm run build
 # Check for expected output
-test -e build/*.html
-test -e build/static/js/*.js
-test -e build/static/css/*.css
-test -e build/favicon.ico
+exists build/*.html
+exists build/static/js/*.js
+exists build/static/css/*.css
+exists build/favicon.ico
 
 # Run tests, overring the watch option to disable it.
 # `CI=true npm test` won't work here because `npm test` becomes just `jest`.
@@ -187,71 +267,13 @@ test -e build/favicon.ico
 # `scripts/test.js` survive ejection (right now it doesn't).
 npm test -- --watch=no
 # Uncomment when snapshot testing is enabled by default:
-# test -e src/__snapshots__/App.test.js.snap
+# exists src/__snapshots__/App.test.js.snap
 
 # Test the server
 npm start -- --smoke-test
 
-# ******************************************************************************
-# Test --scripts-version with a version number
-# ******************************************************************************
-
-cd $temp_app_path
-create_inferno_app --scripts-version=0.9.0 test-app-version-number
-cd test-app-version-number
-
-# Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts
-grep '"version": "0.9.0"' node_modules/inferno-scripts/package.json
-
-# ******************************************************************************
-# Test --scripts-version with a tarball url
-# ******************************************************************************
-
-cd $temp_app_path
-create_inferno_app --scripts-version=https://registry.npmjs.org/inferno-scripts/-/inferno-scripts-0.9.0.tgz test-app-tarball-url
-cd test-app-tarball-url
-
-# Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts
-grep '"version": "0.9.0"' node_modules/inferno-scripts/package.json
-
-# ******************************************************************************
-# Test --scripts-version with a custom fork of inferno-scripts
-# ******************************************************************************
-
-cd $temp_app_path
-create_inferno_app --scripts-version=inferno-scripts-fork test-app-fork
-cd test-app-fork
-
-# Check corresponding scripts version is installed.
-test -e node_modules/inferno-scripts-fork
-
-# ******************************************************************************
-# Test nested folder path as the project name
-# ******************************************************************************
-
-#Testing a path that exists
-cd $temp_app_path
-mkdir test-app-nested-paths-t1
-cd test-app-nested-paths-t1
-mkdir -p test-app-nested-paths-t1/aa/bb/cc/dd
-create_react_app test-app-nested-paths-t1/aa/bb/cc/dd
-cd test-app-nested-paths-t1/aa/bb/cc/dd
-npm start -- --smoke-test
-
-#Testing a path that does not exist
-cd $temp_app_path
-create_react_app test-app-nested-paths-t2/aa/bb/cc/dd
-cd test-app-nested-paths-t2/aa/bb/cc/dd
-npm start -- --smoke-test
-
-#Testing a path that is half exists
-cd $temp_app_path
-mkdir -p test-app-nested-paths-t3/aa
-create_react_app test-app-nested-paths-t3/aa/bb/cc/dd
-cd test-app-nested-paths-t3/aa/bb/cc/dd
-npm start -- --smoke-test
+# Test environment handling
+verify_env_url
 
 # Cleanup
 cleanup
