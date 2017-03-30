@@ -103,8 +103,6 @@ if (env === 'test') {
           modules: false, // Let webpack 2 treeshake
           // Disable polyfill transforms
           useBuiltIns: false,
-          // Do not transform modules to CJS
-          modules: false,
         },
       ],
     ],
