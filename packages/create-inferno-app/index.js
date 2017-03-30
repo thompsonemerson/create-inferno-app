@@ -41,6 +41,7 @@
 var chalk = require('chalk');
 
 var currentNodeVersion = process.versions.node;
+
 if (currentNodeVersion.split('.')[0] < 4) {
   console.error(
     chalk.red(
