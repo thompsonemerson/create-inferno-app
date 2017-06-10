@@ -8,6 +8,7 @@
  */
 
 import Inferno, { Component, PropTypes } from 'inferno';
+import PropTypes from 'prop-types';
 
 function load({ id, ...rest } = { id: 0, user: { id: 42, name: '42' } }) {
   return [

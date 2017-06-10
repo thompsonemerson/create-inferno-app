@@ -8,6 +8,7 @@
  */
 
 import Inferno, { Component, PropTypes } from 'inferno';
+import PropTypes from 'prop-types';
 
 export default class extends Component {
   static propTypes = {

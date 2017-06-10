@@ -7,7 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import Inferno, { Component, PropTypes } from 'inferno';
+import Inferno, { Component } from 'inferno';
+import PropTypes from 'prop-types';
 
 function load(users) {
   return [

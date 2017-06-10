@@ -7,8 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 'use strict';
-
-var path = require('path');
+var presetFlow = require('babel-preset-flow');
 
 const plugins = [
   // Transforms JSX
@@ -36,8 +35,6 @@ const plugins = [
       helpers: false,
       polyfill: false,
       regenerator: true,
-      // Resolve the Babel runtime relative to the config.
-      moduleName: path.dirname(require.resolve('babel-runtime/package')),
     },
   ],
 ];
@@ -71,6 +68,7 @@ if (env !== 'development' && env !== 'test' && env !== 'production') {
 if (env === 'test') {
   module.exports = {
     presets: [
+      presetFlow,
       // ES features necessary for user's Node version
       [
         require('babel-preset-env').default,
@@ -89,12 +87,12 @@ if (env === 'test') {
 } else {
   module.exports = {
     presets: [
+      presetFlow,
       // Latest stable ECMAScript features
       [
         require.resolve('babel-preset-env'),
         {
           targets: {
-            // Inferno parses on ie 9, so we should too
             ie: 11,
             // We currently minify with uglify
             // Remove after https://github.com/mishoo/UglifyJS2/issues/448

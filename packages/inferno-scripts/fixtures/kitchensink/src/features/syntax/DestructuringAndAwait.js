@@ -8,6 +8,7 @@
  */
 
 import Inferno, { Component, PropTypes } from 'inferno';
+import PropTypes from 'prop-types';
 
 async function load() {
   return {

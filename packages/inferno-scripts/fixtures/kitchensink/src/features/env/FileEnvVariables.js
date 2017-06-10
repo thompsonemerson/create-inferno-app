@@ -9,8 +9,16 @@
 
 import Inferno from 'inferno';
 
-export default () => (
-  <span id="feature-file-env-variables">
-    {process.env.INFERNO_APP_FILE_ENV_MESSAGE}.
-  </span>
-);
+export default () =>
+  <span>
+    <span id="feature-file-env-original-1">
+      {process.env.INFERNO_APP_ORIGINAL_1}
+    </span>
+    <span id="feature-file-env-original-2">
+      {process.env.INFERNO_APP_ORIGINAL_2}
+    </span>
+    <span id="feature-file-env">
+      {process.env.INFERNO_APP_DEVELOPMENT}{process.env.INFERNO_APP_PRODUCTION}
+    </span>
+    <span id="feature-file-env-x">{process.env.INFERNO_APP_X}</span>
+  </span>;

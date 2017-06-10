@@ -41,8 +41,10 @@
 var chalk = require('chalk');
 
 var currentNodeVersion = process.versions.node;
+var semver = currentNodeVersion.split('.');
+var major = semver[0];
 
-if (currentNodeVersion.split('.')[0] < 4) {
+if (major < 4) {
   console.error(
     chalk.red(
       'You are running Node ' +

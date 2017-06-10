@@ -8,6 +8,7 @@
  */
 
 import Inferno, { Component, PropTypes } from 'inferno';
+import PropTypes from 'prop-types';
 
 function load(baseUser) {
   return [
@@ -40,9 +41,9 @@ export default class extends Component {
   render() {
     return (
       <div id="feature-object-spread">
-        {this.state.users.map(user => (
+        {this.state.users.map(user =>
           <div key={user.id}>{user.name}: {user.age}</div>
-        ))}
+        )}
       </div>
     );
   }
