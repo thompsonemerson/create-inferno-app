@@ -9,6 +9,6 @@
 
 'use strict';
 
-var inquirer = require('./inquirer');
+var inquirer = require('inquirer');
 
 module.exports = inquirer;
