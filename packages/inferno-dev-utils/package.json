@@ -1,6 +1,6 @@
 {
   "name": "inferno-dev-utils",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Webpack utilities used by Create Inferno App",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
