@@ -444,6 +444,7 @@ function getPackageName(installPackage) {
     // Pull package name out of git urls e.g:
     // git+https://github.com/mycompany/inferno-scripts.git
     // git+ssh://github.com/mycompany/inferno-scripts.git#v1.2.3
+    // eslint-disable-next-line
     return Promise.resolve(installPackage.match(/([^\/]+)\.git(#.*)?$/)[1]);
   } else if (installPackage.indexOf('@') > 0) {
     // Do not match @scope/ when stripping off @version or @tag
