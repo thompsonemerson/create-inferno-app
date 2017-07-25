@@ -43,15 +43,15 @@
     "babel-eslint": "7.2.3",
     "babel-preset-inferno-app": "^5.0.1",
     "cross-env": "5.0.1",
-    "eslint": "4.0.0",
+    "eslint": "4.3.0",
     "eslint-config-inferno-app": "^4.1.0",
-    "eslint-plugin-flowtype": "2.34.0",
-    "eslint-plugin-import": "2.3.0",
+    "eslint-plugin-flowtype": "2.35.0",
+    "eslint-plugin-import": "2.7.0",
     "eslint-plugin-inferno": "7.0.1",
-    "eslint-plugin-jsx-a11y": "5.0.3",
-    "flow-bin": "0.48.0",
+    "eslint-plugin-jsx-a11y": "6.0.2",
+    "flow-bin": "0.51.0",
     "jest": "20.0.4",
-    "jest-fetch-mock": "1.1.1"
+    "jest-fetch-mock": "1.2.0"
   },
   "jest": {
     "setupFiles": [

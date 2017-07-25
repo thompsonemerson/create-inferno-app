@@ -171,7 +171,7 @@ function createApp(name, verbose, version, template) {
   if (!semver.satisfies(process.version, '>=6.0.0')) {
     console.log(
       chalk.yellow(
-        `You are using Node ${process.version} so the project will be boostrapped with an old unsupported version of tools.\n\n` +
+        `You are using Node ${process.version} so the project will be bootstrapped with an old unsupported version of tools.\n\n` +
           `Please update to Node 6 or higher for a better, fully supported experience.\n`
       )
     );
@@ -226,7 +226,13 @@ function install(useYarn, dependencies, verbose, isOnline) {
       }
     } else {
       command = 'npm';
-      args = ['install', '--save', '--save-exact'].concat(dependencies);
+      args = [
+        'install',
+        '--save',
+        '--save-exact',
+        '--loglevel',
+        'error',
+      ].concat(dependencies);
     }
 
     if (verbose) {
@@ -258,7 +264,7 @@ function run(
   const packageToInstall = getInstallPackage(version);
   const allDependencies = ['inferno', 'inferno-component', packageToInstall];
 
-  console.log('Installing packages. This might take a couple minutes.');
+  console.log('Installing packages. This might take a couple of minutes.');
   getPackageName(packageToInstall)
     .then(packageName =>
       checkIfOnline(useYarn).then(isOnline => ({
@@ -282,11 +288,7 @@ function run(
     })
     .then(packageName => {
       checkNodeVersion(packageName);
-
-      // Since inferno-scripts has been installed with --save
-      // we need to move it into devDependencies and rewrite package.json
-      // also ensure inferno dependencies have caret version range
-      fixDependencies(packageName);
+      setCaretRangeForRuntimeDeps(packageName);
 
       const scriptsPath = path.resolve(
         process.cwd(),
@@ -510,10 +512,12 @@ function checkAppName(appName) {
   }
 
   // TODO: there should be a single place that holds the dependencies
-  const dependencies = ['inferno', 'inferno-component'];
-  const devDependencies = ['inferno-scripts'];
-  const allDependencies = dependencies.concat(devDependencies).sort();
-  if (allDependencies.indexOf(appName) >= 0) {
+  const dependencies = [
+    'inferno',
+    'inferno-component',
+    'inferno-scripts',
+  ].sort();
+  if (dependencies.indexOf(appName) >= 0) {
     console.error(
       chalk.red(
         `We cannot create a project called ${chalk.green(
@@ -521,7 +525,7 @@ function checkAppName(appName) {
         )} because a dependency with the same name exists.\n` +
           `Due to the way npm works, the following names are not allowed:\n\n`
       ) +
-        chalk.cyan(allDependencies.map(depName => `  ${depName}`).join('\n')) +
+        chalk.cyan(dependencies.map(depName => `  ${depName}`).join('\n')) +
         chalk.red('\n\nPlease choose a different project name.')
     );
     process.exit(1);
@@ -550,7 +554,7 @@ function makeCaretRange(dependencies, name) {
   dependencies[name] = patchedVersion;
 }
 
-function fixDependencies(packageName) {
+function setCaretRangeForRuntimeDeps(packageName) {
   const packagePath = path.join(process.cwd(), 'package.json');
   const packageJson = require(packagePath);
 
@@ -560,15 +564,10 @@ function fixDependencies(packageName) {
   }
 
   const packageVersion = packageJson.dependencies[packageName];
-
   if (typeof packageVersion === 'undefined') {
     console.error(chalk.red(`Unable to find ${packageName} in package.json`));
     process.exit(1);
   }
-
-  packageJson.devDependencies = packageJson.devDependencies || {};
-  packageJson.devDependencies[packageName] = packageVersion;
-  delete packageJson.dependencies[packageName];
 
   makeCaretRange(packageJson.dependencies, 'inferno');
   makeCaretRange(packageJson.dependencies, 'inferno-component');

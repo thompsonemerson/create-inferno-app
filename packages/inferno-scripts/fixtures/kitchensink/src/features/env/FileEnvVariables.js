@@ -18,7 +18,10 @@ export default () =>
       {process.env.INFERNO_APP_ORIGINAL_2}
     </span>
     <span id="feature-file-env">
-      {process.env.INFERNO_APP_DEVELOPMENT}{process.env.INFERNO_APP_PRODUCTION}
+      {process.env.INFERNO_APP_DEVELOPMENT}
+      {process.env.INFERNO_APP_PRODUCTION}
     </span>
-    <span id="feature-file-env-x">{process.env.INFERNO_APP_X}</span>
+    <span id="feature-file-env-x">
+      {process.env.INFERNO_APP_X}
+    </span>
   </span>;

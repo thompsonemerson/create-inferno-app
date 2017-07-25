@@ -42,7 +42,7 @@ Install it once globally:
 npm install -g create-inferno-app
 ```
 
-**You’ll need to have Node >= 6 on your machine**. You can use [nvm](https://github.com/creationix/nvm#usage) to easily switch Node versions between different projects.
+**You’ll need to have Node >= 6 on your machine**. You can use [nvm](https://github.com/creationix/nvm#installation) to easily switch Node versions between different projects.
 
 **This tool doesn’t assume a Node backend**. The Node installation is only required for Create Inferno App itself.
 
@@ -59,23 +59,23 @@ It will create a directory called `my-app` inside the current folder.<br>
 Inside that directory, it will generate the initial project structure and install the transitive dependencies:
 
 ```
-my-app/
-  README.md
-  node_modules/
-  package.json
-  .gitignore
-  public/
-    favicon.ico
-    index.html
-    manifest.json
-  src/
-    App.css
-    App.js
-    App.test.js
-    index.css
-    index.js
-    logo.svg
-    registerServiceWorker.js
+my-app
+├── README.md
+├── node_modules
+├── package.json
+├── .gitignore
+├── public
+│   └── favicon.ico
+│   └── index.html
+│   └── manifest.json
+└── src
+    └── App.css
+    └── App.js
+    └── App.test.js
+    └── index.css
+    └── index.js
+    └── logo.svg
+    └── registerServiceWorker.js
 ```
 
 No configuration or complicated folder structures, just the files you need to build your app.<br>
@@ -122,7 +122,7 @@ The [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/pac
 - [Supported Language Features and Polyfills](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#supported-language-features-and-polyfills)
 - [Syntax Highlighting in the Editor](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#syntax-highlighting-in-the-editor)
 - [Installing a Dependency](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#installing-a-dependency)
-- [Debugging in the Editor](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#debugging-in-the-editor)
+- [Formatting Code Automatically](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#formatting-code-automatically)
 - [Changing the Page `<title>`](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#changing-the-page-title)
 - [Adding a Stylesheet](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-a-stylesheet)
 - [Post-Processing CSS](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#post-processing-css)
@@ -143,6 +143,8 @@ The [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/pac
 - [Making a Progressive Web App](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#making-a-progressive-web-app)
 - [Advanced Configuration](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#advanced-configuration)
 - [Troubleshooting](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#troubleshooting)
+- [Developing Components in Isolation](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation)
+- [Analyzing the Bundle Size](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#analyzing-the-bundle-size)
 
 A copy of the user guide will be created as `README.md` in your project folder.
 
@@ -228,3 +230,5 @@ We are grateful to the authors of existing related projects for their ideas and 
 * [@mxstbr](https://github.com/mxstbr)
 
 * [mozilla-neutrino/neutrino-dev](https://github.com/mozilla-neutrino/neutrino-dev)
+* [jaredpalmer/razzle](https://github.com/jaredpalmer/razzle)
+* [gluestick](https://github.com/TrueCar/gluestick)

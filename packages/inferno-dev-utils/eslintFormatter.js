@@ -11,6 +11,7 @@
 
 const chalk = require('chalk');
 const table = require('text-table');
+const stripAnsi = require('strip-ansi');
 
 function isError(message) {
   if (message.fatal || message.severity === 2) {
@@ -67,7 +68,7 @@ function formatter(results) {
     let outputTable = table(messages, {
       align: ['l', 'l', 'l'],
       stringLength(str) {
-        return chalk.stripColor(str).length;
+        return stripAnsi(str).length;
       },
     });
 

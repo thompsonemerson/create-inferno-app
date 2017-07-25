@@ -9,8 +9,7 @@
 
 import Inferno from 'inferno';
 
-export default () => (
+export default () =>
   <span id="feature-shell-env-variables">
     {process.env.INFERNO_APP_SHELL_ENV_MESSAGE}.
-  </span>
-);
+  </span>;

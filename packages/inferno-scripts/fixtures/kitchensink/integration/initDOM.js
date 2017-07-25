@@ -42,7 +42,7 @@ if (process.env.E2E_FILE) {
     new Promise(resolve => {
       http.get(process.env.E2E_URL, res => {
         let rawData = '';
-        res.on('data', chunk => rawData += chunk);
+        res.on('data', chunk => (rawData += chunk));
         res.on('end', () => resolve(rawData));
       });
     });
