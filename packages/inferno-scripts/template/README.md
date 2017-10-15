@@ -68,6 +68,7 @@ You can find the most recent version of this guide [here](https://github.com/inf
   - [Getting Started with Storybook](#getting-started-with-storybook)
   - [Getting Started with Styleguidist](#getting-started-with-styleguidist)
 - [Making a Progressive Web App](#making-a-progressive-web-app)
+  - [Opting Out of Caching](#opting-out-of-caching)
   - [Offline-First Considerations](#offline-first-considerations)
   - [Progressive Web App Metadata](#progressive-web-app-metadata)
 - [Analyzing the Bundle Size](#analyzing-the-bundle-size)
@@ -80,7 +81,6 @@ You can find the most recent version of this guide [here](https://github.com/inf
   - [Firebase](#firebase)
   - [GitHub Pages](#github-pages)
   - [Heroku](#heroku)
-  - [Modulus](#modulus)
   - [Netlify](#netlify)
   - [Now](#now)
   - [S3 and CloudFront](#s3-and-cloudfront)
@@ -91,6 +91,7 @@ You can find the most recent version of this guide [here](https://github.com/inf
   - [`npm test` hangs on macOS Sierra](#npm-test-hangs-on-macos-sierra)
   - [`npm run build` exits too early](#npm-run-build-exits-too-early)
   - [`npm run build` fails on Heroku](#npm-run-build-fails-on-heroku)
+  - [`npm run build` fails to minify](#npm-run-build-fails-to-minify)
   - [Moment.js locales are missing](#momentjs-locales-are-missing)
 - [Something Missing?](#something-missing)
 
@@ -198,7 +199,7 @@ In addition to [ES6](https://github.com/lukehoban/es6features) syntax features, 
 * [Async/await](https://github.com/tc39/ecmascript-asyncawait) (ES2017).
 * [Object Rest/Spread Properties](https://github.com/sebmarkbage/ecmascript-rest-spread) (stage 3 proposal).
 * [Dynamic import()](https://github.com/tc39/proposal-dynamic-import) (stage 3 proposal)
-* [Class Fields and Static Properties](https://github.com/tc39/proposal-class-public-fields) (stage 2 proposal).
+* [Class Fields and Static Properties](https://github.com/tc39/proposal-class-public-fields) (part of stage 3 proposal).
 * [JSX](https://facebook.github.io/inferno/docs/introducing-jsx.html) and [Flow](https://flowtype.org/) syntax.
 
 Learn more about [different proposal stages](https://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-).
@@ -238,15 +239,17 @@ You would need to install an ESLint plugin for your editor first. Then, add a fi
 Now your editor should report the linting warnings.
 
 Note that even if you edit your `.eslintrc` file further, these changes will **only affect the editor integration**. They won’t affect the terminal and in-browser lint output. This is because Create Inferno App intentionally provides a minimal set of rules that find common mistakes.
-npm install -g eslint-config-inferno-app@0.3.0 eslint@3.8.1 babel-eslint@7.0.0 eslint-plugin-inferno@6.4.1 eslint-plugin-import@2.0.1 eslint-plugin-jsx-a11y@4.0.0 eslint-plugin-flowtype@2.21.0
+npm install -g eslint-config-inferno-app eslint babel-eslint eslint-plugin-inferno eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-flowtype
 
 If you want to enforce a coding style for your project, consider using [Prettier](https://github.com/jlongster/prettier) instead of ESLint style rules.
 
 ## Debugging in the Editor
 
-**This feature is currently only supported by [Visual Studio Code](https://code.visualstudio.com) editor.**
+**This feature is currently only supported by [Visual Studio Code](https://code.visualstudio.com) and [WebStorm](https://www.jetbrains.com/webstorm/).**
 
-Visual Studio Code supports live-editing and debugging out of the box with Create Inferno App. This enables you as a developer to write and debug your Inferno code without leaving the editor, and most importantly it enables you to have a continuous development workflow, where context switching is minimal, as you don’t have to switch between tools.
+Visual Studio Code and WebStorm support debugging out of the box with Create React App. This enables you as a developer to write and debug your React code without leaving the editor, and most importantly it enables you to have a continuous development workflow, where context switching is minimal, as you don’t have to switch between tools.
+
+### Visual Studio Code
 
 You would need to have the latest version of [VS Code](https://code.visualstudio.com) and VS Code [Chrome Debugger Extension](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) installed.
 
@@ -268,8 +271,21 @@ Then add the block below to your `launch.json` file and put it inside the `.vsco
   }]
 }
 ```
+>Note: the URL may be different if you've made adjustments via the [HOST or PORT environment variables](#advanced-configuration).
 
 Start your app by running `npm start`, and start debugging in VS Code by pressing `F5` or by clicking the green debug icon. You can now write code, set breakpoints, make changes to the code, and debug your newly modified code—all from your editor.
+
+### WebStorm
+
+You would need to have [WebStorm](https://www.jetbrains.com/webstorm/) and [JetBrains IDE Support](https://chrome.google.com/webstore/detail/jetbrains-ide-support/hmhgeddbohgjknpmjagkdomcpobmllji) Chrome extension installed.
+
+In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and select `JavaScript Debug`. Paste `http://localhost:3000` into the URL field and save the configuration.
+
+>Note: the URL may be different if you've made adjustments via the [HOST or PORT environment variables](#advanced-configuration).
+
+Start your app by running `npm start`, then press `^D` on macOS or `F9` on Windows and Linux or click the green debug icon to start debugging in WebStorm.
+
+The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine. 
 
 ## Formatting Code Automatically
 
@@ -298,8 +314,8 @@ Add the following line to `scripts` section:
 ```diff
   "scripts": {
 +   "precommit": "lint-staged",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "inferno-scripts start",
+    "build": "inferno-scripts build",
 ```
 
 Next we add a 'lint-staged' field to the `package.json`, for example:
@@ -336,16 +352,16 @@ If you use a custom server for your app in production and want to modify the tit
 The generated project includes `inferno` and `inferno-component` as dependencies. It also includes a set of scripts used by Create Inferno App as a development dependency. You may install other dependencies (for example, Inferno Router) with `npm`:
 
 ```sh
-npm install --save react-router
+npm install --save inferno-router
 ```
 
 Alternatively you may use `yarn`:
 
 ```sh
-yarn add react-router
+yarn add inferno-router
 ```
 
-This works for any library, not just `react-router`.
+This works for any library, not just `inferno-router`.
 
 ## Importing a Component
 
@@ -416,7 +432,7 @@ export { moduleA };
 ### `App.js`
 
 ```js
-import Inferno, { Component } from 'inferno';
+import Component from 'inferno-component';
 
 class App extends Component {
   handleClick = () => {
@@ -950,7 +966,7 @@ To tell the development server to proxy any unknown requests to your API server 
   "proxy": "http://localhost:4000",
 ```
 
-This way, when you `fetch('/api/todos')` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/todos` as a fallback. The development server will only attempt to send requests without a `text/html` accept header to the proxy.
+This way, when you `fetch('/api/todos')` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/todos` as a fallback. The development server will **only** attempt to send requests without `text/html` in its `Accept` header to the proxy.
 
 Conveniently, this avoids [CORS issues](http://stackoverflow.com/questions/21854516/understanding-ajax-cors-and-security-considerations) and error messages like this in development:
 
@@ -1016,7 +1032,7 @@ You may also specify any configuration value [`http-proxy-middleware`](https://g
 All requests matching this path will be proxies, no exceptions. This includes requests for `text/html`, which the standard `proxy` option does not proxy.
 
 If you need to specify multiple proxies, you may do so by specifying additional entries.
-You may also narrow down matches using `*` and/or `**`, to match the path exactly or any subpath.
+Matches are regular expressions, so that you can use a regexp to match multiple paths.
 ```js
 {
   // ...
@@ -1037,12 +1053,12 @@ You may also narrow down matches using `*` and/or `**`, to match the path exactl
       // ...
     },
     // Matches /bar/abc.html but not /bar/sub/def.html
-    "/bar/*.html": {
+    "/bar/[^/]*[.]html": {
       "target": "<url_3>",
       // ...
     },
     // Matches /baz/abc.html and /baz/sub/def.html
-    "/baz/**/*.html": {
+    "/baz/.*/.*[.]html": {
       "target": "<url_4>"
       // ...
     }
@@ -1361,8 +1377,8 @@ cache:
   directories:
     - node_modules
 script:
-  - npm test
   - npm run build
+  - npm test
 ```
 1. Trigger your first build with a git push.
 1. [Customize your Travis CI Build](https://docs.travis-ci.com/user/customizing-the-build/) if needed.
@@ -1543,6 +1559,8 @@ The service worker will use a [cache-first strategy](https://developers.google.c
 for handling all requests for local assets, including the initial HTML, ensuring
 that your web app is reliably fast, even on a slow or unreliable network.
 
+### Opting Out of Caching
+
 If you would prefer not to enable service workers prior to your initial
 production deployment, then remove the call to `serviceWorkerRegistration.register()`
 from [`src/index.js`](src/index.js).
@@ -1552,7 +1570,8 @@ have decided that you would like to disable them for all your existing users,
 you can swap out the call to `serviceWorkerRegistration.register()` in
 [`src/index.js`](src/index.js) with a call to `serviceWorkerRegistration.unregister()`.
 After the user visits a page that has `serviceWorkerRegistration.unregister()`,
-the service worker will be uninstalled.
+the service worker will be uninstalled. Note that depending on how `/service-worker.js` is served,
+it may take up to 24 hours for the cache to be invalidated.
 
 ### Offline-First Considerations
 
@@ -1651,16 +1670,6 @@ Then in `package.json`, add the following line to `scripts`:
      "build": "react-scripts build",
      "test": "react-scripts test --env=jsdom",
 ```
-
->**Note:**
->
->This doesn't quite work on Windows because it doesn't automatically expand `*` in the filepath. For now, the workaround is to look at the full hashed filename in `build/static/js` (e.g. `main.89b7e95a.js`) and copy it into `package.json` when you're running the analyzer. For example:
->
->```diff
->+    "analyze": "source-map-explorer build/static/js/main.89b7e95a.js",
->```
->
->Unfortunately it will be different after every build. You can express support for fixing this on Windows [in this issue](https://github.com/danvk/source-map-explorer/issues/52).
 
 Then to analyze the bundle run the production build then run the analyze
 script.
@@ -1767,6 +1776,15 @@ To override this, specify the `homepage` in your `package.json`, for example:
 
 This will let Create Inferno App correctly infer the root path to use in the generated HTML file.
 
+**Note**: If you are using `react-router@^4`, you can root `<Link>`s using the `basename` prop on any `<Router>`.<br>
+More information [here](https://reacttraining.com/react-router/web/api/BrowserRouter/basename-string).<br>
+<br>
+For example:
+```js
+<BrowserRouter basename="/calendar"/>
+<Link to="/today"/> // renders <a href="/calendar/today">
+```
+
 #### Serving the Same Build from Different Paths
 
 >Note: this feature is available with `inferno-scripts@0.9.0` and higher.
@@ -1779,11 +1797,11 @@ If you are not using the HTML5 `pushState` history API or not using client-side 
 
 This will make sure that all the asset paths are relative to `index.html`. You will then be able to move your app from `http://mywebsite.com` to `http://mywebsite.com/relativepath` or even `http://mywebsite.com/relative/path` without having to rebuild it.
 
-### Azure
+### [Azure](https://azure.microsoft.com/)
 
-See [this](https://medium.com/@to_pe/deploying-create-inferno-app-on-microsoft-azure-c0f6686a4321) blog post on how to deploy your Inferno app to [Microsoft Azure](https://azure.microsoft.com/).
+See [this](https://medium.com/@to_pe/deploying-create-react-app-on-microsoft-azure-c0f6686a4321) blog post on how to deploy your React app to Microsoft Azure.
 
-### Firebase
+### [Firebase](https://firebase.google.com/)
 
 Install the Firebase CLI if you haven’t already by running `npm install -g firebase-tools`. Sign up for a [Firebase account](https://console.firebase.google.com/) and create a new project. Run `firebase login` and login with your previous created Firebase account.
 
@@ -1844,7 +1862,7 @@ Now, after you create a production build with `npm run build`, you can deploy it
 
 For more information see [Add Firebase to your JavaScript Project](https://firebase.google.com/docs/web/setup).
 
-### GitHub Pages
+### [GitHub Pages](https://pages.github.com/)
 
 >Note: this feature is available with `inferno-scripts@0.2.0` and higher.
 
@@ -1914,7 +1932,7 @@ GitHub Pages doesn’t support routers that use the HTML5 `pushState` history AP
 * You could switch from using HTML5 history API to routing with hashes. If you use React Router, you can switch to `hashHistory` for this effect, but the URL will be longer and more verbose (for example, `http://user.github.io/todomvc/#/todos/42?_k=yknaj`). [Read more](https://reacttraining.com/react-router/web/api/Router) about different history implementations in React Router.
 * Alternatively, you can use a trick to teach GitHub Pages to handle 404 by redirecting to your `index.html` page with a special redirect parameter. You would need to add a `404.html` file with the redirection code to the `build` folder before deploying your project, and you’ll need to add code handling the redirect parameter to `index.html`. You can find a detailed explanation of this technique [in this guide](https://github.com/rafrex/spa-github-pages).
 
-### Heroku
+### [Heroku](https://www.heroku.com/)
 
 Use the [Heroku Buildpack for Create Inferno App](https://github.com/mars/create-inferno-app-buildpack).<br>
 You can find instructions in [Deploying Inferno with Zero Configuration](https://blog.heroku.com/deploying-inferno-with-zero-configuration).
@@ -1952,11 +1970,7 @@ remote: npm ERR! argv "/tmp/build_a2875fc163b209225122d68916f1d4df/.heroku/node/
 
 In this case, ensure that the file is there with the proper lettercase and that’s not ignored on your local `.gitignore` or `~/.gitignore_global`.
 
-### Modulus
-
-See the [Modulus blog post](http://blog.modulus.io/deploying-inferno-apps-on-modulus) on how to deploy your Inferno app to Modulus.
-
-### Netlify
+### [Netlify](https://www.netlify.com/)
 
 **To do a manual deploy to Netlify’s CDN:**
 
@@ -1985,9 +1999,9 @@ To support `pushState`, make sure to create a `public/_redirects` file with the 
 
 When you build the project, Create Inferno App will place the `public` folder contents into the build output.
 
-### Now
+### [Now](https://zeit.co/now)
 
-[now](https://zeit.co/now) offers a zero-configuration single-command deployment. You can use `now` to deploy your app for free.
+Now offers a zero-configuration single-command deployment. You can use `now` to deploy your app for free.
 
 1. Install the `now` command-line tool either via the recommended [desktop tool](https://zeit.co/download) or via node with `npm install -g now`.
 
@@ -2005,11 +2019,11 @@ When you build the project, Create Inferno App will place the `public` folder co
 
 Details are available in [this article.](https://zeit.co/blog/unlimited-static)
 
-### S3 and CloudFront
+### [S3](https://aws.amazon.com/s3) and [CloudFront](https://aws.amazon.com/cloudfront/)
 
-See this [blog post](https://medium.com/@omgwtfmarc/deploying-create-inferno-app-to-s3-or-cloudfront-48dae4ce0af) on how to deploy your Inferno app to Amazon Web Services [S3](https://aws.amazon.com/s3) and [CloudFront](https://aws.amazon.com/cloudfront/).
+See this [blog post](https://medium.com/@omgwtfmarc/deploying-create-react-app-to-s3-or-cloudfront-48dae4ce0af) on how to deploy your React app to Amazon Web Services S3 and CloudFront.
 
-### Surge
+### [Surge](https://surge.sh/)
 
 Install the Surge CLI if you haven’t already by running `npm install -g surge`. Run the `surge` command and log in you or create a new account.
 
@@ -2033,7 +2047,9 @@ PORT | :white_check_mark: | :x: | By default, the development web server will at
 HTTPS | :white_check_mark: | :x: | When set to `true`, Create Inferno App will run the development server in `https` mode.
 PUBLIC_URL | :x: | :white_check_mark: | Create Inferno App assumes your application is hosted at the serving web server's root or a subpath as specified in [`package.json` (`homepage`)](#building-for-relative-paths). Normally, Create Inferno App ignores the hostname. You may use this variable to force assets to be referenced verbatim to the url you provide (hostname included). This may be particularly useful when using a CDN to host your application.
 CI | :large_orange_diamond: | :white_check_mark: | When set to `true`, Create Inferno App treats warnings as failures in the build. It also makes the test runner non-watching. Most CIs set this flag by default.
-REACT_EDITOR | :white_check_mark: | :x: | When an app crashes in development, you will see an error overlay with clickable stack trace. When you click on it, Create React App will try to determine the editor you are using based on currently running processes, and open the relevant source file. You can [send a pull request to detect your editor of choice](https://github.com/facebookincubator/create-react-app/issues/2636). Setting this environment variable overrides the automatic detection. If you do it, make sure your systems [PATH](https://en.wikipedia.org/wiki/PATH_(variable)) environment variable points to your editor’s bin folder.
+INFERNO_EDITOR | :white_check_mark: | :x: | When an app crashes in development, you will see an error overlay with clickable stack trace. When you click on it, Create React App will try to determine the editor you are using based on currently running processes, and open the relevant source file. You can [send a pull request to detect your editor of choice](https://github.com/facebookincubator/create-react-app/issues/2636). Setting this environment variable overrides the automatic detection. If you do it, make sure your systems [PATH](https://en.wikipedia.org/wiki/PATH_(variable)) environment variable points to your editor’s bin folder.
+CHOKIDAR_USEPOLLING | :white_check_mark: | :x: | When set to `true`, the watcher runs in polling mode, as necessary inside a VM. Use this option if `npm start` isn't detecting changes.
+GENERATE_SOURCEMAP | :x: | :white_check_mark: | When set to `false`, source maps are not generated for a production build. This solves OOM issues on some smaller machines.
 
 ## Troubleshooting
 
@@ -2113,6 +2129,16 @@ moment.locale('fr');
 ```
 
 This will only work for locales that have been explicitly imported before.
+
+### `npm run build` fails to minify
+
+You may occasionally find a package you depend on needs compiled or ships code for a non-browser environment.<br>
+This is considered poor practice in the ecosystem and does not have an escape hatch in Create React App.<br>
+<br>
+To resolve this:
+1. Open an issue on the dependency's issue tracker and ask that the package be published pre-compiled (retaining ES6 Modules).
+2. Fork the package and publish a corrected version yourself.
+3. If the dependency is small enough, copy it to your `src/` folder and treat it as application code.
 
 ## Something Missing?
 

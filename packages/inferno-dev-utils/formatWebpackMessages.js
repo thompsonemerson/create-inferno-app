@@ -1,10 +1,8 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 'use strict';
@@ -98,7 +96,7 @@ function formatMessage(message, isError) {
   // https://github.com/facebookincubator/create-inferno-app/pull/1050
   /* eslint-disable */
   message = message.replace(
-    /^\s*at\s((?!webpack:).)*:\d+:\d+[\s\)]*(\n|$)/gm,
+    /^\s*at\s((?!webpack:).)*:\d+:\d+[\s)]*(\n|$)/gm,
     ''
   ); // at ... ...:x:y
   /* eslint-enable */
@@ -122,11 +120,6 @@ function formatWebpackMessages(json) {
     // This prevents a confusing ESLint parsing error
     // preceding a much more useful Babel syntax error.
     result.errors = result.errors.filter(isLikelyASyntaxError);
-  }
-  // Only keep the first error. Others are often indicative
-  // of the same problem, but confuse the reader with noise.
-  if (result.errors.length > 1) {
-    result.errors.length = 1;
   }
   return result;
 }

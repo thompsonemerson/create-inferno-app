@@ -1,20 +1,14 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-import Inferno, { Component, createElement } from 'inferno';
-import PropTypes from 'prop-types';
+import Component from 'inferno-component';
+import VNodeFlags from 'inferno-vnode-flags';
 
 class BuiltEmitter extends Component {
-  static propTypes = {
-    feature: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
     const { feature } = this.props;
 
@@ -33,7 +27,7 @@ class BuiltEmitter extends Component {
     const { props: { feature }, handleReady } = this;
     return (
       <div>
-        {createElement(feature, {
+        {createVNode(VNodeFlags.ComponentUnknown, feature, null, {
           onReady: handleReady,
         })}
       </div>

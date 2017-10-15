@@ -1,19 +1,16 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-// @flow
 import StackFrame from './stack-frame';
 import { getSourceMap } from './getSourceMap';
 import { getLinesAround } from './getLinesAround';
 import path from 'path';
 
-function count(search: string, string: string): number {
+function count(search, string) {
   // Count starts at -1 becuse a do-while loop always runs at least once
   let count = -1,
     index = -1;
@@ -29,15 +26,11 @@ function count(search: string, string: string): number {
 
 /**
  * Turns a set of mapped <code>StackFrame</code>s back into their generated code position and enhances them with code.
- * @param {string} fileUri The URI of the <code>bundle.js</code> file.
+ * @param {string} _fileUri The URI of the <code>bundle.js</code> file.
  * @param {StackFrame[]} frames A set of <code>StackFrame</code>s which are already mapped and missing their generated positions.
- * @param {number} [fileContents=3] The number of lines to provide before and after the line specified in the <code>StackFrame</code>.
+ * @param {number} [contextLines=3] The number of lines to provide before and after the line specified in the <code>StackFrame</code>.
  */
-async function unmap(
-  _fileUri: string | { uri: string, contents: string },
-  frames: StackFrame[],
-  contextLines: number = 3
-): Promise<StackFrame[]> {
+async function unmap(_fileUri, frames, contextLines = 3) {
   let fileContents = typeof _fileUri === 'object' ? _fileUri.contents : null;
   let fileUri = typeof _fileUri === 'object' ? _fileUri.uri : _fileUri;
   if (fileContents == null) {
@@ -56,14 +49,19 @@ async function unmap(
     }
     let { fileName } = frame;
     if (fileName) {
-      fileName = path.normalize(fileName);
+      // The web version of this module only provides POSIX support, so Windows
+      // paths like C:\foo\\baz\..\\bar\ cannot be normalized.
+      // A simple solution to this is to replace all `\` with `/`, then
+      // normalize afterwards.
+      fileName = path.normalize(fileName.replace(/[\\]+/g, '/'));
     }
     if (fileName == null) {
       return frame;
     }
-    const fN: string = fileName;
+    const fN = fileName;
     const source = map
       .getSources()
+      // Prepare path for normalization; see comment above for reasoning.
       .map(s => s.replace(/[\\]+/g, '/'))
       .filter(p => {
         p = path.normalize(p);
@@ -100,7 +98,6 @@ async function unmap(
     const { line, column } = map.getGeneratedPosition(
       sourceT,
       lineNumber,
-      // $FlowFixMe
       columnNumber
     );
     const originalSource = map.getSource(sourceT);

@@ -1,22 +1,11 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-/* @flow */
-
-type InfernoFrame = {
-  fileName: string | null,
-  lineNumber: number | null,
-  name: string | null,
-};
-const infernoFrameStack: Array<InfernoFrame[]> = [];
-
-export type { InfernoFrame };
+const infernoFrameStack = [];
 
 // This is a stripped down barebones version of this proposal:
 // https://gist.github.com/sebmarkbage/bdefa100f19345229d526d0fdd22830f
@@ -27,27 +16,19 @@ export type { InfernoFrame };
 
 const registerInfernoStack = () => {
   if (typeof console !== 'undefined') {
-    // $FlowFixMe
     console.infernoStack = frames => infernoFrameStack.push(frames);
-    // $FlowFixMe
     console.infernoStackEnd = frames => infernoFrameStack.pop();
   }
 };
 
 const unregisterInfernoStack = () => {
   if (typeof console !== 'undefined') {
-    // $FlowFixMe
     console.infernoStack = undefined;
-    // $FlowFixMe
     console.infernoStackEnd = undefined;
   }
 };
 
-type ConsoleProxyCallback = (message: string, frames: InfernoFrame[]) => void;
-const permanentRegister = function proxyConsole(
-  type: string,
-  callback: ConsoleProxyCallback
-) {
+const permanentRegister = function proxyConsole(type, callback) {
   if (typeof console !== 'undefined') {
     const orig = console[type];
     if (typeof orig === 'function') {

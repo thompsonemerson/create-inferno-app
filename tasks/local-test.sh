@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Copyright (c) 2015-present, Facebook, Inc.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
 function print_help {
   echo "Usage: ${0} [OPTIONS]"
@@ -68,15 +72,15 @@ case ${test_suite} in
 esac
 
 read -r -d '' apply_changes <<- CMD
-cd /var/create-react-app
-git config --global user.name "Create React App"
+cd /var/create-inferno-app
+git config --global user.name "Create Inferno App"
 git config --global user.email "cra@email.com"
 git stash save -u
 git stash show -p > patch
 git diff 4b825dc642cb6eb9a060e54bf8d69288fbee4904 stash^3 >> patch
 git stash pop
 cd -
-mv /var/create-react-app/patch .
+mv /var/create-inferno-app/patch .
 git apply patch
 rm patch
 CMD
@@ -90,8 +94,8 @@ echo "prefix=~/.npm" > ~/.npmrc
 mkdir ~/.npm
 export PATH=\$PATH:~/.npm/bin
 set -x
-git clone /var/create-react-app create-react-app --branch ${git_branch}
-cd create-react-app
+git clone /var/create-inferno-app create-inferno-app --branch ${git_branch}
+cd create-inferno-app
 ${apply_changes}
 node --version
 npm --version
@@ -106,7 +110,7 @@ docker run \
   --env USE_YARN=${use_yarn} \
   --tty \
   --user node \
-  --volume ${PWD}/..:/var/create-react-app \
+  --volume ${PWD}/..:/var/create-inferno-app \
   --workdir /home/node \
   $([[ ${interactive} == 'true' ]] && echo '--interactive') \
   node:${node_version} \

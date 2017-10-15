@@ -1,31 +1,31 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-// @flow
 import StackFrame from './stack-frame';
 
 const regexExtractLocation = /\(?(.+?)(?::(\d+))?(?::(\d+))?\)?$/;
 
-function extractLocation(token: string): [string, number, number] {
-  return regexExtractLocation.exec(token).slice(1).map(v => {
-    const p = Number(v);
-    if (!isNaN(p)) {
-      return p;
-    }
-    return v;
-  });
+function extractLocation(token) {
+  return regexExtractLocation
+    .exec(token)
+    .slice(1)
+    .map(v => {
+      const p = Number(v);
+      if (!isNaN(p)) {
+        return p;
+      }
+      return v;
+    });
 }
 
 const regexValidFrame_Chrome = /^\s*(at|in)\s.+(:\d+)/;
 const regexValidFrame_FireFox = /(^|@)\S+:\d+|.+line\s+\d+\s+>\s+(eval|Function).+/;
 
-function parseStack(stack: string[]): StackFrame[] {
+function parseStack(stack): StackFrame[] {
   const frames = stack
     .filter(
       e => regexValidFrame_Chrome.test(e) || regexValidFrame_FireFox.test(e)
@@ -55,7 +55,10 @@ function parseStack(stack: string[]): StackFrame[] {
         if (e.indexOf('(at ') !== -1) {
           e = e.replace(/\(at /, '(');
         }
-        const data = e.trim().split(/\s+/g).slice(1);
+        const data = e
+          .trim()
+          .split(/\s+/g)
+          .slice(1);
         const last = data.pop();
         return new StackFrame(data.join(' ') || null, ...extractLocation(last));
       }
@@ -67,7 +70,7 @@ function parseStack(stack: string[]): StackFrame[] {
  * Turns an <code>Error</code>, or similar object, into a set of <code>StackFrame</code>s.
  * @alias parse
  */
-function parseError(error: Error | string | string[]): StackFrame[] {
+function parseError(error): StackFrame[] {
   if (error == null) {
     throw new Error('You cannot pass a null object.');
   }

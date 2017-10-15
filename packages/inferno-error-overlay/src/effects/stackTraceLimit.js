@@ -1,20 +1,17 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-/* @flow */
-let stackTraceRegistered: boolean = false;
+let stackTraceRegistered = false;
 // Default: https://docs.microsoft.com/en-us/scripting/javascript/reference/stacktracelimit-property-error-javascript
-let restoreStackTraceValue: number = 10;
+let restoreStackTraceValue = 10;
 
-const MAX_STACK_LENGTH: number = 50;
+const MAX_STACK_LENGTH = 50;
 
-function registerStackTraceLimit(limit: number = MAX_STACK_LENGTH) {
+function registerStackTraceLimit(limit = MAX_STACK_LENGTH) {
   if (stackTraceRegistered) {
     return;
   }

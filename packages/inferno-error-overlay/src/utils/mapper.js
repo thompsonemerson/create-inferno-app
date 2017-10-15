@@ -1,13 +1,10 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-// @flow
 import StackFrame from './stack-frame';
 import { getSourceMap } from './getSourceMap';
 import { getLinesAround } from './getLinesAround';
@@ -18,12 +15,9 @@ import { settle } from 'settle-promise';
  * @param {StackFrame[]} frames A set of <code>StackFrame</code>s which contain (generated) code positions.
  * @param {number} [contextLines=3] The number of lines to provide before and after the line specified in the <code>StackFrame</code>.
  */
-async function map(
-  frames: StackFrame[],
-  contextLines: number = 3
-): Promise<StackFrame[]> {
-  const cache: any = {};
-  const files: string[] = [];
+async function map(frames, contextLines = 3) {
+  const cache = {};
+  const files = [];
   frames.forEach(frame => {
     const { fileName } = frame;
     if (fileName == null) {

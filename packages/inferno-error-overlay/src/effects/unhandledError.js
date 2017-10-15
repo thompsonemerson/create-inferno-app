@@ -1,22 +1,16 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-/* @flow */
 let boundErrorHandler = null;
 
-type ErrorCallback = (error: Error) => void;
-
-function errorHandler(callback: ErrorCallback, e: Event): void {
+function errorHandler(callback, e) {
   if (!e.error) {
     return;
   }
-  // $FlowFixMe
   const { error } = e;
   if (error instanceof Error) {
     callback(error);
@@ -27,7 +21,7 @@ function errorHandler(callback: ErrorCallback, e: Event): void {
   }
 }
 
-function registerUnhandledError(target: EventTarget, callback: ErrorCallback) {
+function registerUnhandledError(target, callback) {
   if (boundErrorHandler !== null) {
     return;
   }
@@ -35,7 +29,7 @@ function registerUnhandledError(target: EventTarget, callback: ErrorCallback) {
   target.addEventListener('error', boundErrorHandler);
 }
 
-function unregisterUnhandledError(target: EventTarget) {
+function unregisterUnhandledError(target) {
   if (boundErrorHandler === null) {
     return;
   }

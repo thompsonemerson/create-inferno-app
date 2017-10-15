@@ -1,13 +1,10 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
-//@flow
 import { SourceMapConsumer } from 'source-map';
 
 /**
@@ -16,8 +13,6 @@ import { SourceMapConsumer } from 'source-map';
  * This exposes methods which will be indifferent to changes made in <code>{@link https://github.com/mozilla/source-map source-map}</code>.
  */
 class SourceMap {
-  __source_map: SourceMapConsumer;
-
   constructor(sourceMap) {
     this.__source_map = sourceMap;
   }
@@ -27,10 +22,7 @@ class SourceMap {
    * @param {number} line The line of the generated code position.
    * @param {number} column The column of the generated code position.
    */
-  getOriginalPosition(
-    line: number,
-    column: number
-  ): { source: string, line: number, column: number } {
+  getOriginalPosition(line, column) {
     const {
       line: l,
       column: c,
@@ -48,11 +40,7 @@ class SourceMap {
    * @param {number} line The line of the original code position.
    * @param {number} column The column of the original code position.
    */
-  getGeneratedPosition(
-    source: string,
-    line: number,
-    column: number
-  ): { line: number, column: number } {
+  getGeneratedPosition(source, line, column) {
     const { line: l, column: c } = this.__source_map.generatedPositionFor({
       source,
       line,
@@ -68,16 +56,16 @@ class SourceMap {
    * Returns the code for a given source file name.
    * @param {string} sourceName The name of the source file.
    */
-  getSource(sourceName: string): string {
+  getSource(sourceName) {
     return this.__source_map.sourceContentFor(sourceName);
   }
 
-  getSources(): string[] {
+  getSources() {
     return this.__source_map.sources;
   }
 }
 
-function extractSourceMapUrl(fileUri: string, fileContents: string) {
+function extractSourceMapUrl(fileUri, fileContents) {
   const regex = /\/\/[#@] ?sourceMappingURL=([^\s'"]+)\s*$/gm;
   let match = null;
   for (;;) {
@@ -98,10 +86,7 @@ function extractSourceMapUrl(fileUri: string, fileContents: string) {
  * @param {string} fileUri The URI of the source file.
  * @param {string} fileContents The contents of the source file.
  */
-async function getSourceMap(
-  fileUri: string,
-  fileContents: string
-): Promise<SourceMap> {
+async function getSourceMap(fileUri, fileContents) {
   let sm = await extractSourceMapUrl(fileUri, fileContents);
   if (sm.indexOf('data:') === 0) {
     const base64 = /^data:application\/json;([\w=:"-]+;)*base64,/;
