@@ -110,7 +110,7 @@ Your app is ready to be deployed.
 
 ## Usage with Inferno (through inferno-compat)
 
-You can use Inferno components with create-inferno-app. All you have is to do is install inferno-compat (npm install --save inferno-compat) and Inferno and InfernoDOM will be already aliased to inferno-compat. After installing it you can import any Inferno dependent library or use any code that imports Inferno and that should work fine.
+You can use React components with create-inferno-app. All you have is to do is install inferno-compat (npm install --save inferno-compat) and React and ReactDOM will be already aliased to inferno-compat. After installing it you can import any React dependent library or use any code that imports React and that should work fine.
 
 ## User Guide
 
