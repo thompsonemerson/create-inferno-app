@@ -106,7 +106,7 @@ You almost never need to update `create-inferno-app` itself: it delegates all th
 
 When you run `create-inferno-app`, it always creates the project with the latest version of `inferno-scripts` so you’ll get all the new features and improvements in newly created apps automatically.
 
-To update an existing project to a new version of `inferno-scripts`, [open the changelog](https://github.com/infernojs/create-inferno-app/blob/master/CHANGELOG.md), find the version you’re currently on (check `package.json` in this folder if you’re not sure), and apply the migration instructions for the newer versions.
+To update an existing project to a new version of `inferno-scripts`, [open the changelog](https://github.com/facebookincubator/create-react-app/blob/master/CHANGELOG.md), - (The changelog points to upstream), find the version you’re currently on (check `package.json` in this folder if you’re not sure), and apply the migration instructions for the newer versions.
 
 In most cases bumping the `inferno-scripts` version in `package.json` and running `npm install` in this folder should be enough, but it’s good to consult the [changelog](https://github.com/infernojs/create-inferno-app/blob/master/CHANGELOG.md) for potential breaking changes.
 
@@ -1165,7 +1165,7 @@ Then, on the server, you can replace `__SERVER_DATA__` with a JSON of real data 
 ## Running Tests
 
 >Note: this feature is available with `inferno-scripts@0.3.0` and higher.<br>
->[Read the migration guide to learn how to enable it in older projects!](https://github.com/infernojs/create-inferno-app/blob/master/CHANGELOG.md#migrating-from-023-to-030)
+>[Read the migration guide to learn how to enable it in older projects!](https://github.com/facebookincubator/create-react-app/blob/master/CHANGELOG.md#migrating-from-023-to-030)
 
 Create Inferno App uses [Jest](https://facebook.github.io/jest/) as its test runner. To prepare for this integration, we did a [major revamp](https://facebook.github.io/jest/blog/2016/09/01/jest-15.html) of Jest so if you heard bad things about it years ago, give it another try.
 
