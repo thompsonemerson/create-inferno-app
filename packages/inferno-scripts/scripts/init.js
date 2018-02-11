@@ -99,7 +99,7 @@ module.exports = function(
     command = 'npm';
     args = ['install', '--save', verbose && '--verbose'].filter(e => e);
   }
-  args.push('inferno', 'inferno-component', 'babel-plugin-inferno');
+  args.push('inferno', 'babel-plugin-inferno');
 
   // Install additional template dependencies, if present
   const templateDependenciesPath = path.join(
@@ -117,7 +117,7 @@ module.exports = function(
   }
 
   if (!isInfernoInstalled(appPackage) || template) {
-    console.log(`Installing inferno and inferno-component using ${command}...`);
+    console.log(`Installing inferno using ${command}...`);
     console.log();
 
     const proc = spawn.sync(command, args, { stdio: 'inherit' });
@@ -184,8 +184,5 @@ module.exports = function(
 function isInfernoInstalled(appPackage) {
   const dependencies = appPackage.dependencies || {};
 
-  return (
-    typeof dependencies.inferno !== 'undefined' &&
-    typeof dependencies['inferno-component'] !== 'undefined'
-  );
+  return typeof dependencies.inferno !== 'undefined';
 }

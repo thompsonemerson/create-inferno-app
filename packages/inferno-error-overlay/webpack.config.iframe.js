@@ -24,6 +24,9 @@ module.exports = {
       },
     ],
   },
+  node: {
+    fs: 'empty',
+  },
   plugins: [
     new webpack.DefinePlugin({
       // We set process.env.NODE_ENV to 'production' so that Inferno is built

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from 'inferno-component';
+import { Component } from 'inferno';
 import ErrorOverlay from '../components/ErrorOverlay';
 import CloseButton from '../components/CloseButton';
 import NavigationBar from '../components/NavigationBar';

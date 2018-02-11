@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from 'inferno-component';
+import { Component } from 'inferno';
 
 function load() {
   return [[1, '1'], [2, '2'], [3, '3'], [4, '4']];

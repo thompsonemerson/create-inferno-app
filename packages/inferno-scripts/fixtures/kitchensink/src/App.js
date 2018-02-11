@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from 'inferno-component';
-import VNodeFlags from 'inferno-vnode-flags';
+import { Component, createVNode } from 'inferno';
+import { VNodeFlags } from 'inferno-vnode-flags';
 
 class BuiltEmitter extends Component {
   componentDidMount() {
@@ -172,6 +172,11 @@ class App extends Component {
         break;
       case 'unknown-ext-inclusion':
         import('./features/webpack/UnknownExtInclusion').then(f =>
+          this.setFeature(f.default)
+        );
+        break;
+      case 'expand-env-variables':
+        import('./features/env/ExpandEnvVariables').then(f =>
           this.setFeature(f.default)
         );
         break;

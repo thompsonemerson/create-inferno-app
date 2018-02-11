@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Component from 'inferno-component';
+import { Component } from 'inferno';
 import { black } from '../styles';
 
 const overlayStyle = {
@@ -31,14 +31,14 @@ const overlayStyle = {
 class ErrorOverlay extends Component {
   iframeWindow: window = null;
 
-  getIframeWindow = (element: ?HTMLDivElement) => {
+  getIframeWindow = element => {
     if (element) {
       const document = element.ownerDocument;
       this.iframeWindow = document.defaultView;
     }
   };
 
-  onKeyDown = (e: KeyboardEvent) => {
+  onKeyDown = e => {
     const { shortcutHandler } = this.props;
     if (shortcutHandler) {
       shortcutHandler(e.key);

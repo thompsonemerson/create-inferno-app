@@ -19,6 +19,7 @@ function parseCompileError(message) {
   const lines = message.split('\n');
   let fileName = '';
   let lineNumber = 0;
+  let colNumber = 0;
 
   for (let i = 0; i < lines.length; i++) {
     const line = Anser.ansiToText(lines[i]).trim();
@@ -32,9 +33,11 @@ function parseCompileError(message) {
 
     let k = 0;
     while (k < lineNumberRegexes.length) {
-      const match: ?Array<string> = line.match(lineNumberRegexes[k]);
+      const match = line.match(lineNumberRegexes[k]);
       if (match) {
         lineNumber = parseInt(match[1], 10);
+        // colNumber starts with 0 and hence add 1
+        colNumber = parseInt(match[2], 10) + 1 || 1;
         break;
       }
       k++;
@@ -45,7 +48,7 @@ function parseCompileError(message) {
     }
   }
 
-  return fileName && lineNumber ? { fileName, lineNumber } : null;
+  return fileName && lineNumber ? { fileName, lineNumber, colNumber } : null;
 }
 
 export default parseCompileError;

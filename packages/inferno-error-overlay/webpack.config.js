@@ -29,6 +29,9 @@ module.exports = {
       },
     ],
   },
+  node: {
+    fs: 'empty',
+  },
   resolve: {
     alias: {
       iframeScript$: path.resolve(__dirname, './lib/iframe-bundle.js'),
