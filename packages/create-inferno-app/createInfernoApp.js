@@ -290,7 +290,7 @@ function run(
   useYarn
 ) {
   const packageToInstall = getInstallPackage(version, originalDirectory);
-  const allDependencies = ['inferno', 'inferno-component', packageToInstall];
+  const allDependencies = ['inferno', packageToInstall];
 
   console.log('Installing packages. This might take a couple of minutes.');
   getPackageName(packageToInstall)
@@ -304,9 +304,7 @@ function run(
       const isOnline = info.isOnline;
       const packageName = info.packageName;
       console.log(
-        `Installing ${chalk.cyan('inferno')}, ${chalk.cyan(
-          'inferno-component'
-        )}, and ${chalk.cyan(packageName)}...`
+        `Installing ${chalk.cyan('inferno')}, and ${chalk.cyan(packageName)}...`
       );
       console.log();
 
@@ -553,11 +551,7 @@ function checkAppName(appName) {
   }
 
   // TODO: there should be a single place that holds the dependencies
-  const dependencies = [
-    'inferno',
-    'inferno-component',
-    'inferno-scripts',
-  ].sort();
+  const dependencies = ['inferno', 'inferno-scripts'].sort();
   if (dependencies.indexOf(appName) >= 0) {
     console.error(
       chalk.red(
@@ -611,7 +605,6 @@ function setCaretRangeForRuntimeDeps(packageName) {
   }
 
   makeCaretRange(packageJson.dependencies, 'inferno');
-  makeCaretRange(packageJson.dependencies, 'inferno-component');
 
   fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2));
 }
