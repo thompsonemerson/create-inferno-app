@@ -57,7 +57,7 @@
     "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
     "settle-promise": "1.0.0",
-    "source-map": "0.7.2",
+    "source-map": "0.6.1",
     "webpack": "^3"
   },
   "jest": {
