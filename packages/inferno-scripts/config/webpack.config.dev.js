@@ -95,7 +95,7 @@ module.exports = {
       react: 'inferno-compat',
       'react-dom': 'inferno-compat',
       // Use development build of inferno for better validations during development process
-      inferno: path.resolve(require.resolve('inferno/dist/index.dev.mjs')),
+      inferno: path.resolve(require.resolve('inferno/dist/index.dev.esm.js')),
       // @remove-on-eject-begin
       // Resolve Babel runtime relative to inferno-scripts.
       // It usually still works on npm 3 without this but it would be
