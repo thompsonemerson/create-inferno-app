@@ -39,7 +39,7 @@ process.on('uncaughtException', handleError);
 // ******************************************************************************
 
 const rootDir = path.join(__dirname, '..');
-const reactScriptsDir = path.join(rootDir, 'packages', 'react-scripts');
+const reactScriptsDir = path.join(rootDir, 'packages', 'inferno-scripts');
 const packageJsonPath = path.join(reactScriptsDir, 'package.json');
 const packageJsonOrigPath = path.join(reactScriptsDir, 'package.json.orig');
 
@@ -68,7 +68,7 @@ const scriptsFileName = cp
 const scriptsPath = path.join(
   rootDir,
   'packages',
-  'react-scripts',
+  'inferno-scripts',
   scriptsFileName
 );
 
@@ -94,7 +94,7 @@ const args = process.argv.slice(2);
 const craScriptPath = path.join(
   rootDir,
   'packages',
-  'create-react-app',
+  'create-inferno-app',
   'index.js'
 );
 cp.execSync(
