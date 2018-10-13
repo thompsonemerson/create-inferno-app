@@ -15,7 +15,8 @@
   },
   "files": [
     "index.js",
-    "createInfernoApp.js"
+    "createInfernoApp.js",
+    "yarn.lock.cached"
   ],
   "bin": {
     "create-inferno-app": "./index.js"

@@ -13,7 +13,7 @@
   "files": [
     "bin",
     "config",
-    "../inferno-scripts/scripts",
+    "scripts",
     "template",
     "utils"
   ],

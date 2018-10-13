@@ -9,12 +9,12 @@
   },
   "files": [
     "create.js",
-    "../babel-preset-inferno-app/dependencies.js",
-    "../babel-preset-inferno-app/dev.js",
+    "dependencies.js",
+    "dev.js",
     "index.js",
-    "../babel-preset-inferno-app/webpack-overrides.js",
-    "../babel-preset-inferno-app/prod.js",
-    "../babel-preset-inferno-app/test.js"
+    "webpack-overrides.js",
+    "prod.js",
+    "test.js"
   ],
   "dependencies": {
     "@babel/core": "7.1.2",
