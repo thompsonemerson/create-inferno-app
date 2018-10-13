@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-inferno-app",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "ESLint configuration used by Create Inferno App",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
