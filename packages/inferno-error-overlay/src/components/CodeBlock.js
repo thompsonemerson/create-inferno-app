@@ -8,27 +8,28 @@
 import { redTransparent, yellowTransparent } from '../styles';
 
 const _preStyle = {
+  position: 'relative',
   display: 'block',
   padding: '0.5em',
-  marginTop: '0.5em',
-  marginBottom: '0.5em',
-  overflowX: 'auto',
-  whiteSpace: 'pre-wrap',
-  borderRadius: '0.25rem',
+  'margin-top': '0.5em',
+  'margin-bottom': '0.5em',
+  'overflow-x': 'auto',
+  'white-space': 'pre-wrap',
+  'border-radius': '0.25rem',
 };
 
 const primaryPreStyle = {
   ..._preStyle,
-  backgroundColor: redTransparent,
+  'background-color': redTransparent,
 };
 
 const secondaryPreStyle = {
   ..._preStyle,
-  backgroundColor: yellowTransparent,
+  'background-color': yellowTransparent,
 };
 
 const codeStyle = {
-  fontFamily: 'Consolas, Menlo, monospace',
+  'font-family': 'Consolas, Menlo, monospace',
 };
 
 function CodeBlock(props) {

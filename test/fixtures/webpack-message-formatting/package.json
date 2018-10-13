@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "inferno": "latest"
+  },
+  "browserslist": [
+    ">0.2%"
+  ]
+}

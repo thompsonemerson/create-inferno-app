@@ -9,8 +9,8 @@ import { black } from '../styles';
 
 const closeButtonStyle = {
   color: black,
-  lineHeight: '1rem',
-  fontSize: '1.5rem',
+  'line-height': '1rem',
+  'font-size': '1.5rem',
   padding: '1rem',
   cursor: 'pointer',
   position: 'absolute',

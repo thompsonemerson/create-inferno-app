@@ -25,7 +25,7 @@ function extractLocation(token) {
 const regexValidFrame_Chrome = /^\s*(at|in)\s.+(:\d+)/;
 const regexValidFrame_FireFox = /(^|@)\S+:\d+|.+line\s+\d+\s+>\s+(eval|Function).+/;
 
-function parseStack(stack): StackFrame[] {
+function parseStack(stack) {
   const frames = stack
     .filter(
       e => regexValidFrame_Chrome.test(e) || regexValidFrame_FireFox.test(e)
@@ -70,7 +70,7 @@ function parseStack(stack): StackFrame[] {
  * Turns an <code>Error</code>, or similar object, into a set of <code>StackFrame</code>s.
  * @alias parse
  */
-function parseError(error): StackFrame[] {
+function parseError(error) {
   if (error == null) {
     throw new Error('You cannot pass a null object.');
   }

@@ -8,15 +8,15 @@
 import { red } from '../styles';
 
 const headerStyle = {
-  fontSize: '2em',
-  fontFamily: 'sans-serif',
+  'font-size': '2em',
+  'font-family': 'sans-serif',
   color: red,
-  whiteSpace: 'pre-wrap',
+  'white-space': 'pre-wrap',
   // Top bottom margin spaces header
   // Right margin revents overlap with close button
   margin: '0 2rem 0.75rem 0',
   flex: '0 0 auto',
-  maxHeight: '50%',
+  'max-height': '50%',
   overflow: 'auto',
 };
 

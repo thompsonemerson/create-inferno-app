@@ -11,12 +11,12 @@ import { getPrettyURL } from '../utils/getPrettyURL';
 import { darkGray } from '../styles';
 
 const linkStyle = {
-  fontSize: '0.9em',
-  marginBottom: '0.9em',
+  'font-size': '0.9em',
+  'margin-bottom': '0.9em',
 };
 
 const anchorStyle = {
-  textDecoration: 'none',
+  'text-decoration': 'none',
   color: darkGray,
   cursor: 'pointer',
 };
@@ -26,18 +26,18 @@ const codeAnchorStyle = {
 };
 
 const toggleStyle = {
-  marginBottom: '1.5em',
+  'margin-bottom': '1.5em',
   color: darkGray,
   cursor: 'pointer',
   border: 'none',
   display: 'block',
   width: '100%',
-  textAlign: 'left',
+  'text-align': 'left',
   background: '#fff',
-  fontFamily: 'Consolas, Menlo, monospace',
-  fontSize: '1em',
+  'font-family': 'Consolas, Menlo, monospace',
+  'font-size': '1em',
   padding: '0px',
-  lineHeight: '1.5',
+  'line-height': '1.5',
 };
 
 class StackFrame extends Component {
@@ -77,7 +77,7 @@ class StackFrame extends Component {
     this.props.editorHandler(errorLoc);
   };
 
-  onKeyDown = (e: SyntheticKeyboardEvent<>) => {
+  onKeyDown = e => {
     if (e.key === 'Enter') {
       this.editorHandler();
     }
@@ -146,23 +146,23 @@ class StackFrame extends Component {
       <div>
         <div>{functionName}</div>
         <div style={linkStyle}>
-          <a
+          <span
             style={canOpenInEditor ? anchorStyle : null}
             onClick={canOpenInEditor ? this.editorHandler : null}
             onKeyDown={canOpenInEditor ? this.onKeyDown : null}
             tabIndex={canOpenInEditor ? '0' : null}
           >
             {url}
-          </a>
+          </span>
         </div>
         {codeBlockProps && (
           <span>
-            <a
+            <span
               onClick={canOpenInEditor ? this.editorHandler : null}
               style={canOpenInEditor ? codeAnchorStyle : null}
             >
               <CodeBlock {...codeBlockProps} />
-            </a>
+            </span>
             <button style={toggleStyle} onClick={this.toggleCompiled}>
               {'View ' + (compiled ? 'source' : 'compiled')}
             </button>

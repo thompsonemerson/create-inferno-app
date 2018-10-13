@@ -21,66 +21,7 @@
 // This is dangerous as it hides accidentally undefined variables.
 // We blacklist the globals that we deem potentially confusing.
 // To use them, explicitly reference them, e.g. `window.name` or `window.status`.
-var restrictedGlobals = [
-  'addEventListener',
-  'blur',
-  'close',
-  'closed',
-  'confirm',
-  'defaultStatus',
-  'defaultstatus',
-  'event',
-  'external',
-  'find',
-  'focus',
-  'frameElement',
-  'frames',
-  'history',
-  'innerHeight',
-  'innerWidth',
-  'length',
-  'location',
-  'locationbar',
-  'menubar',
-  'moveBy',
-  'moveTo',
-  'name',
-  'onblur',
-  'onerror',
-  'onfocus',
-  'onload',
-  'onresize',
-  'onunload',
-  'open',
-  'opener',
-  'opera',
-  'outerHeight',
-  'outerWidth',
-  'pageXOffset',
-  'pageYOffset',
-  'parent',
-  'print',
-  'removeEventListener',
-  'resizeBy',
-  'resizeTo',
-  'screen',
-  'screenLeft',
-  'screenTop',
-  'screenX',
-  'screenY',
-  'scroll',
-  'scrollbars',
-  'scrollBy',
-  'scrollTo',
-  'scrollX',
-  'scrollY',
-  'self',
-  'status',
-  'statusbar',
-  'stop',
-  'toolbar',
-  'top',
-];
+var restrictedGlobals = require('confusing-browser-globals');
 
 module.exports = {
   root: true,
@@ -98,12 +39,10 @@ module.exports = {
   },
 
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
-      generators: true,
-      experimentalObjectRestSpread: true,
     },
   },
 
@@ -112,7 +51,7 @@ module.exports = {
     'array-callback-return': 'warn',
     'default-case': ['warn', { commentPattern: '^no default$' }],
     'dot-location': ['warn', 'property'],
-    eqeqeq: ['warn', 'allow-null'],
+    eqeqeq: ['warn', 'smart'],
     'new-parens': 'warn',
     'no-array-constructor': 'warn',
     'no-caller': 'warn',
@@ -179,7 +118,7 @@ module.exports = {
     'no-unexpected-multiline': 'warn',
     'no-unreachable': 'warn',
     'no-unused-expressions': [
-      'warn',
+      'error',
       {
         allowShortCircuit: true,
         allowTernary: true,
@@ -216,7 +155,6 @@ module.exports = {
     ],
     'no-with': 'warn',
     'no-whitespace-before-property': 'warn',
-    radix: 'warn',
     'require-yield': 'warn',
     'rest-spread-spacing': ['warn', 'never'],
     strict: ['warn', 'never'],
@@ -225,13 +163,12 @@ module.exports = {
     'valid-typeof': 'warn',
     'no-restricted-properties': [
       'error',
-      // TODO: reenable once import() is no longer slow.
-      // https://github.com/facebookincubator/create-react-app/issues/2176
-      // {
-      //   object: 'require',
-      //   property: 'ensure',
-      //   message: 'Please use import() instead. More info: https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#code-splitting',
-      // },
+      {
+        object: 'require',
+        property: 'ensure',
+        message:
+          'Please use import() instead. More info: https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#code-splitting',
+      },
       {
         object: 'System',
         property: 'import',
@@ -239,6 +176,7 @@ module.exports = {
           'Please use import() instead. More info: https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#code-splitting',
       },
     ],
+    'getter-return': 'warn',
 
     // https://github.com/benmosher/eslint-plugin-import/tree/master/docs/rules
     'import/first': 'error',
@@ -261,6 +199,7 @@ module.exports = {
     'inferno/no-is-mounted': 'warn',
     'inferno/inferno-in-jsx-scope': 0,
     'inferno/style-prop-object': 'warn',
+    // 'react/no-deprecated': 'warn',
 
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/tree/master/docs/rules
     'jsx-a11y/accessible-emoji': 'warn',

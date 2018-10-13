@@ -9,6 +9,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, './lib'),
@@ -36,5 +37,15 @@ module.exports = {
     alias: {
       iframeScript$: path.resolve(__dirname, './lib/iframe-bundle.js'),
     },
+  },
+  optimization: {
+    nodeEnv: false,
+  },
+  node: {
+    fs: 'empty',
+    process: false,
+  },
+  performance: {
+    hints: false,
   },
 };

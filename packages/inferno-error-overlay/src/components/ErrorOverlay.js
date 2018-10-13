@@ -11,25 +11,25 @@ import { black } from '../styles';
 const overlayStyle = {
   position: 'relative',
   display: 'inline-flex',
-  flexDirection: 'column',
+  'flex-direction': 'column',
   height: '100%',
   width: '1024px',
-  maxWidth: '100%',
-  overflowX: 'hidden',
-  overflowY: 'auto',
+  'max-width': '100%',
+  'overflow-x': 'hidden',
+  'overflow-y': 'auto',
   padding: '0.5rem',
-  boxSizing: 'border-box',
-  textAlign: 'left',
-  fontFamily: 'Consolas, Menlo, monospace',
-  fontSize: '11px',
-  whiteSpace: 'pre-wrap',
-  wordBreak: 'break-word',
-  lineHeight: 1.5,
+  'box-sizing': 'border-box',
+  'text-align': 'left',
+  'font-family': 'Consolas, Menlo, monospace',
+  'font-size': '11px',
+  'white-space': 'pre-wrap',
+  'word-break': 'break-word',
+  'line-height': 1.5,
   color: black,
 };
 
 class ErrorOverlay extends Component {
-  iframeWindow: window = null;
+  iframeWindow = null;
 
   getIframeWindow = element => {
     if (element) {

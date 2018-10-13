@@ -1,5 +1,5 @@
 {
-  "extends": "inferno-app",
+  "extends": "babel-preset-inferno-app",
   "rules": {
     "curly": "warn"
   }

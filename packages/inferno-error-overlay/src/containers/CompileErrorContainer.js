@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { Component } from 'inferno';
 import ErrorOverlay from '../components/ErrorOverlay';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -16,23 +17,26 @@ const codeAnchorStyle = {
   cursor: 'pointer',
 };
 
-function CompileErrorContainer({ error, editorHandler }) {
-  const errLoc: ?ErrorLocation = parseCompileError(error);
-  const canOpenInEditor = errLoc !== null && editorHandler !== null;
-  /* eslint-disable jsx-a11y/anchor-is-valid */
-  return (
-    <ErrorOverlay>
-      <Header headerText="Failed to compile" />
-      <a
-        onClick={canOpenInEditor && errLoc ? () => editorHandler(errLoc) : null}
-        style={canOpenInEditor ? codeAnchorStyle : null}
-      >
-        <CodeBlock main={true} codeHTML={generateAnsiHTML(error)} />
-      </a>
-      <Footer line1="This error occurred during the build time and cannot be dismissed." />
-    </ErrorOverlay>
-  );
-  /* eslint-enable jsx-a11y/anchor-is-valid */
+class CompileErrorContainer extends Component {
+  render() {
+    const { error, editorHandler } = this.props;
+    const errLoc = parseCompileError(error);
+    const canOpenInEditor = errLoc !== null && editorHandler !== null;
+    return (
+      <ErrorOverlay>
+        <Header headerText="Failed to compile" />
+        <div
+          onClick={
+            canOpenInEditor && errLoc ? () => editorHandler(errLoc) : null
+          }
+          style={canOpenInEditor ? codeAnchorStyle : null}
+        >
+          <CodeBlock main={true} codeHTML={generateAnsiHTML(error)} />
+        </div>
+        <Footer line1="This error occurred during the build time and cannot be dismissed." />
+      </ErrorOverlay>
+    );
+  }
 }
 
 export default CompileErrorContainer;

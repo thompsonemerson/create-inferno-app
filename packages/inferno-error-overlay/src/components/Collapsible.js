@@ -14,22 +14,22 @@ const _collapsibleStyle = {
   border: 'none',
   display: 'block',
   width: '100%',
-  textAlign: 'left',
+  'text-align': 'left',
   background: '#fff',
-  fontFamily: 'Consolas, Menlo, monospace',
-  fontSize: '1em',
+  'font-family': 'Consolas, Menlo, monospace',
+  'font-size': '1em',
   padding: '0px',
-  lineHeight: '1.5',
+  'line-height': '1.5',
 };
 
 const collapsibleCollapsedStyle = {
   ..._collapsibleStyle,
-  marginBottom: '1.5em',
+  'margin-bottom': '1.5em',
 };
 
 const collapsibleExpandedStyle = {
   ..._collapsibleStyle,
-  marginBottom: '0.6em',
+  'margin-bottom': '0.6em',
 };
 
 class Collapsible extends Component {

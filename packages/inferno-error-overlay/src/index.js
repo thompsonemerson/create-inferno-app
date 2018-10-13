@@ -68,7 +68,7 @@ function handleRuntimeError(errorRecord) {
     currentRuntimeErrorRecords.some(({ error }) => error === errorRecord.error)
   ) {
     // Deduplicate identical errors.
-    // This fixes https://github.com/facebookincubator/create-react-app/issues/3011.
+    // This fixes https://github.com/facebook/create-react-app/issues/3011.
     return;
   }
   currentRuntimeErrorRecords = currentRuntimeErrorRecords.concat([errorRecord]);
@@ -148,9 +148,9 @@ function updateIframeContent() {
   }
 }
 
-window.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__ =
-  window.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__ || {};
-window.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__.iframeReady = function iframeReady() {
+window.__INFERNO_ERROR_OVERLAY_GLOBAL_HOOK__ =
+  window.__INFERNO_ERROR_OVERLAY_GLOBAL_HOOK__ || {};
+window.__INFERNO_ERROR_OVERLAY_GLOBAL_HOOK__.iframeReady = function iframeReady() {
   isIframeReady = true;
   isLoadingIframe = false;
   updateIframeContent();
@@ -158,7 +158,7 @@ window.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__.iframeReady = function iframeReady() 
 
 if (process.env.NODE_ENV === 'production') {
   console.warn(
-    'react-error-overlay is not meant for use in production. You should ' +
+    'inferno-error-overlay is not meant for use in production. You should ' +
       'ensure it is not included in your build to reduce bundle size.'
   );
 }

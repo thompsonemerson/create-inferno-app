@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import './utils/pollyfills.js';
+import 'react-app-polyfill/ie9';
 import { render } from 'inferno';
 import CompileErrorContainer from '../../inferno-error-overlay/src/containers/CompileErrorContainer';
 import RuntimeErrorContainer from '../../inferno-error-overlay/src/containers/RuntimeErrorContainer';
@@ -58,4 +58,4 @@ document.body.style['max-width'] = '100vw';
 iframeRoot = document.createElement('div');
 applyStyles(iframeRoot, overlayStyle);
 document.body.appendChild(iframeRoot);
-window.parent.__REACT_ERROR_OVERLAY_GLOBAL_HOOK__.iframeReady();
+window.parent.__INFERNO_ERROR_OVERLAY_GLOBAL_HOOK__.iframeReady();

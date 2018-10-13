@@ -13,8 +13,5 @@
       "tag: internal": ":house: Internal"
     },
     "cacheDir": ".changelog"
-  },
-  "packages": [
-    "packages/*"
-  ]
+  }
 }

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Inferno from 'inferno';
 import aFileWithoutExt from './assets/aFileWithoutExt';
 
 const text = aFileWithoutExt.includes('base64')

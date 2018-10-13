@@ -8,33 +8,33 @@
 import { red, redTransparent } from '../styles';
 
 const navigationBarStyle = {
-  marginBottom: '0.5rem',
+  'margin-bottom': '0.5rem',
 };
 
 const buttonContainerStyle = {
-  marginRight: '1em',
+  'margin-right': '1em',
 };
 
 const _navButtonStyle = {
-  backgroundColor: redTransparent,
+  'background-color': redTransparent,
   color: red,
   border: 'none',
-  borderRadius: '4px',
+  'border-radius': '4px',
   padding: '3px 6px',
   cursor: 'pointer',
 };
 
 const leftButtonStyle = {
   ..._navButtonStyle,
-  borderTopRightRadius: '0px',
-  borderBottomRightRadius: '0px',
-  marginRight: '1px',
+  'border-top-right-radius': '0px',
+  'border-bottom-right-radius': '0px',
+  'margin-right': '1px',
 };
 
 const rightButtonStyle = {
   ..._navButtonStyle,
-  borderTopLeftRadius: '0px',
-  borderBottomLeftRadius: '0px',
+  'border-top-left-radius': '0px',
+  'border-bottom-left-radius': '0px',
 };
 
 function NavigationBar(props) {

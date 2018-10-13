@@ -12,9 +12,9 @@ import { isInternalFile } from '../utils/isInternalFile';
 import { isBultinErrorName } from '../utils/isBultinErrorName';
 
 const traceStyle = {
-  fontSize: '1em',
+  'font-size': '1em',
   flex: '0 1 auto',
-  minHeight: '0px',
+  'min-height': '0px',
   overflow: 'auto',
 };
 

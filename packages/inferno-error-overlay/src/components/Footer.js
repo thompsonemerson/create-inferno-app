@@ -8,9 +8,9 @@
 import { darkGray } from '../styles';
 
 const footerStyle = {
-  fontFamily: 'sans-serif',
+  'font-family': 'sans-serif',
   color: darkGray,
-  marginTop: '0.5rem',
+  'margin-top': '0.5rem',
   flex: '0 0 auto',
 };
 

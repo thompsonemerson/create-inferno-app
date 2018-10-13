@@ -10,7 +10,7 @@ import StackTrace from './StackTrace';
 
 const wrapperStyle = {
   display: 'flex',
-  flexDirection: 'column',
+  'flex-direction': 'column',
 };
 
 function RuntimeError({ errorRecord, editorHandler }) {
