@@ -28,7 +28,7 @@ module.exports = {
 
   parser: 'babel-eslint',
 
-  plugins: ['import', 'flowtype', 'jsx-a11y', 'inferno'],
+  plugins: ['import', 'jsx-a11y', 'inferno'],
 
   env: {
     browser: true,
@@ -222,8 +222,8 @@ module.exports = {
     'jsx-a11y/scope': 'warn',
 
     // https://github.com/gajus/eslint-plugin-flowtype
-    'flowtype/define-flow-type': 'warn',
-    'flowtype/require-valid-file-annotation': 'warn',
-    'flowtype/use-flow-type': 'warn',
+    // 'flowtype/define-flow-type': 'warn',
+    // 'flowtype/require-valid-file-annotation': 'warn',
+    // 'flowtype/use-flow-type': 'warn',
   },
 };

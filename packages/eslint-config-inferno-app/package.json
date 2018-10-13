@@ -11,14 +11,13 @@
     "index.js"
   ],
   "peerDependencies": {
-    "babel-eslint": "9.x",
     "eslint": "5.x",
-    "eslint-plugin-flowtype": "2.x",
     "eslint-plugin-import": "2.x",
     "eslint-plugin-inferno": "^7",
     "eslint-plugin-jsx-a11y": "6.x"
   },
   "dependencies": {
+    "babel-eslint": "^10",
     "confusing-browser-globals": "^1.0.3"
   }
 }
