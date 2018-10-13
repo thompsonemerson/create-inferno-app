@@ -260,12 +260,12 @@ function createApp(name, verbose, version, useNpm, usePnp, template) {
     }
   }
 
-  // if (useYarn) {
-  //   fs.copySync(
-  //     require.resolve('./yarn.lock.cached'),
-  //     path.join(root, 'yarn.lock')
-  //   );
-  // }
+  if (useYarn) {
+    fs.copySync(
+      require.resolve('./yarn.lock.cached'),
+      path.join(root, 'yarn.lock')
+    );
+  }
 
   run(
     root,
