@@ -1380,7 +1380,7 @@ babel-core@^6.0.0, babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.7"
 
-babel-eslint@10.0.1:
+babel-eslint@10.0.1, babel-eslint@^10:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-10.0.1.tgz#919681dc099614cd7d31d45c8908695092a1faed"
   integrity sha512-z7OT1iNV+TjOwHNLLyJk+HN+YVWX+CLE6fPD2SymJZOZQBs+QIexFjhm4keGTm8MW9xr4EC9Q0PbaLB24V5GoQ==
@@ -1509,10 +1509,10 @@ babel-plugin-transform-object-rest-spread@^6.26.0:
     babel-plugin-syntax-object-rest-spread "^6.8.0"
     babel-runtime "^6.26.0"
 
-babel-preset-inferno-app@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/babel-preset-inferno-app/-/babel-preset-inferno-app-8.0.0.tgz#f14e01c8be5f115f4a7ea284e099d28ba4d8deaf"
-  integrity sha512-by1KtpubWvtsA5ygbHqnZ31afjbE4JqaRkm0mAsRjfn2xqVDOoUdV5BoxONW2z3wUniGNaXSIhyA7nG2U5YIdA==
+babel-preset-inferno-app@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/babel-preset-inferno-app/-/babel-preset-inferno-app-8.0.1.tgz#12d042605b9528f454055a929619884bb6b9e5aa"
+  integrity sha512-fzj3EOD0kIuG3sTUb9tj3y31NrxlO5SFz/qYVWgdokPX5j3IGtBtsoi3UjSZ/D/R2SHnY311oYjXVJSdkC1bPA==
   dependencies:
     "@babel/core" "7.1.2"
     "@babel/plugin-proposal-class-properties" "7.1.0"
@@ -3126,11 +3126,12 @@ escodegen@^1.11.0, escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-inferno-app@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-inferno-app/-/eslint-config-inferno-app-7.0.0.tgz#acd3cbbf196be7bb8c58da0a8dd8d7eebc9f8fbc"
-  integrity sha512-hk29eprUxgQ4zK9bn4bWN5WWiU9sND9gafcTdO3/iGC7h6OMabTqYEw6T76T9AFxlPOGOdA57+UcAdk1AMO1sA==
+eslint-config-inferno-app@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-inferno-app/-/eslint-config-inferno-app-7.0.1.tgz#b7d8a16093730fcc91d80c8732dbf084620662e9"
+  integrity sha512-RL+YIMhqrlVtZUHSFo1TyARsYy4R3/FmqX+r60NKxg7q/mrOkhKE89Pp2k62CmOcMCLMHJ85hV30yWzLua5suQ==
   dependencies:
+    babel-eslint "^10"
     confusing-browser-globals "^1.0.3"
 
 eslint-import-resolver-node@^0.3.1:
@@ -3184,9 +3185,9 @@ eslint-plugin-import@2.14.0:
     resolve "^1.6.0"
 
 eslint-plugin-inferno@^7.10.0:
-  version "7.10.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-inferno/-/eslint-plugin-inferno-7.10.0.tgz#f6fc3e3cef44fe3564d95aa7cb93b5c9ec2cdc10"
-  integrity sha512-Er4LDk5m3MnqRQA7ojzTMF/RCJD+89jRmrYYuDc22T6xiy75sLsqj4o77FncWQ9G5O9Z0wOaCxU0mk1XwObsIg==
+  version "7.11.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-inferno/-/eslint-plugin-inferno-7.11.0.tgz#08ffc1bae117cf10c63365e064693d6b3c4abf81"
+  integrity sha512-YkJesSQqoeqS7jq5OuoTQ8uiBRVXndPL4JqLNQdRbarjEmR594yc/A7PnVGn8SPws/OeyTY/gL/6Gn51zeXw5w==
   dependencies:
     doctrine "^2.1.0"
     has "^1.0.3"
@@ -4442,10 +4443,10 @@ indexof@0.0.1:
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
   integrity sha1-gtwzbSMrkGIXnQWrMpOmYFn9Q10=
 
-inferno-dev-utils@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/inferno-dev-utils/-/inferno-dev-utils-6.0.0.tgz#84e45c5afe330dea953e31c3fef1ffd6ccfccc76"
-  integrity sha512-tDVFa9XRz9F98sjrn4/nX+TrAfYZJIKdTpXwZ9jadJssahaGzaSmlETRddIp7pKd9v6LKr/eNPmQi61gSkumjw==
+inferno-dev-utils@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/inferno-dev-utils/-/inferno-dev-utils-6.0.2.tgz#68a45a0b493191f3251b19c7f7d4c6a7d4c45643"
+  integrity sha512-JyHz4/cAi+P4XLoYDptgOvQEBOzkwptJ1tAjLFczKrY1VwiY2cbaCrScD6gDwZnXErBsDo8zww9kTqmF4B8ALw==
   dependencies:
     "@babel/code-frame" "7.0.0"
     address "1.0.3"
@@ -4458,7 +4459,7 @@ inferno-dev-utils@^6.0.0:
     find-up "3.0.0"
     global-modules "1.0.0"
     gzip-size "5.0.0"
-    inferno-error-overlay "^5.0.0"
+    inferno-error-overlay "^5.0.2"
     inquirer "6.2.0"
     is-root "2.0.0"
     loader-utils "1.1.0"
@@ -4470,10 +4471,10 @@ inferno-dev-utils@^6.0.0:
     strip-ansi "5.0.0"
     text-table "0.2.0"
 
-inferno-error-overlay@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/inferno-error-overlay/-/inferno-error-overlay-5.0.0.tgz#9ad2c132d3cab6756147fdb03166441e59dd2bfe"
-  integrity sha512-X3gJZnAETQllrBFTx9r7TKOv0AC3xuGZV7Ou1xzV5sA+ZlYLFQnc/P1/uNk+f+BrDI50Wc+CwiDpOO5xiXAbGg==
+inferno-error-overlay@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/inferno-error-overlay/-/inferno-error-overlay-5.0.2.tgz#9787b79226d4f470090b03557234e7b101135040"
+  integrity sha512-aOhB4zJizleprcorazggDRswLyUbv4+aUQCBsXF5zpgKMXfvToZ3ExIlbR6zEmVSiee71WmeW97hlzWvZ5qtcQ==
 
 inflight@^1.0.4:
   version "1.0.6"
