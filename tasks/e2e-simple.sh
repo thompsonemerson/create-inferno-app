@@ -99,7 +99,6 @@ yarn config set registry "$custom_registry_url"
 
 # Lint own code
 ./node_modules/.bin/eslint --max-warnings 0 packages/babel-preset-inferno-app/
-./node_modules/.bin/eslint --max-warnings 0 packages/confusing-browser-globals/
 ./node_modules/.bin/eslint --max-warnings 0 packages/create-inferno-app/
 ./node_modules/.bin/eslint --max-warnings 0 packages/eslint-config-inferno-app/
 ./node_modules/.bin/eslint --max-warnings 0 packages/inferno-dev-utils/
@@ -114,11 +113,7 @@ if [ $APPVEYOR != 'True' ]; then
 fi
 cd ../..
 
-cd packages/react-dev-utils/
-yarn test
-cd ../..
-
-cd packages/confusing-browser-globals/
+cd packages/inferno-dev-utils/
 yarn test
 cd ../..
 

@@ -18,6 +18,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const execSync = require('child_process').execSync;
+const spawn = require('inferno-dev-utils/crossSpawn');
 const { defaultBrowsers } = require('inferno-dev-utils/browsersHelper');
 const os = require('os');
 

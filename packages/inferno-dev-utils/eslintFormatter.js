@@ -8,7 +8,6 @@
 'use strict';
 
 const chalk = require('chalk');
-const stripAnsi = require('strip-ansi');
 const table = require('text-table');
 const stripAnsi = require('strip-ansi');
 
