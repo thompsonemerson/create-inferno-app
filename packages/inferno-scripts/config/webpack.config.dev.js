@@ -150,8 +150,23 @@ module.exports = {
     alias: {
       react: 'inferno-compat',
       'react-dom': 'inferno-compat',
-      // Use development build of inferno for better validations during development process
+      // These aliases makes sure all inferno imports and react aliases resolve into same script entry and no duplicates are made
       inferno: path.resolve(require.resolve('inferno/dist/index.dev.esm.js')),
+      // 'inferno-clone-vnode': path.resolve(require.resolve('inferno-clone-vnode/dist/index.dev.esm.js')),
+      // 'inferno-compat': path.resolve(require.resolve('inferno-compat/dist/index.dev.esm.js')),
+      // 'inferno-component': path.resolve(require.resolve('inferno-component/dist/index.dev.esm.js')),
+      // 'inferno-create-class': path.resolve(require.resolve('inferno-create-class/dist/index.dev.esm.js')),
+      // 'inferno-create-element': path.resolve(require.resolve('inferno-create-element/dist/index.dev.esm.js')),
+      // 'inferno-devtools': path.resolve(require.resolve('inferno-devtools/dist/index.dev.esm.js')),
+      // 'inferno-extras': path.resolve(require.resolve('inferno-extras/dist/index.dev.esm.js')),
+      // 'inferno-hydrate': path.resolve(require.resolve('inferno-hydrate/dist/index.dev.esm.js')),
+      // 'inferno-hyperscript': path.resolve(require.resolve('inferno-hyperscript/dist/index.dev.esm.js')),
+      // 'inferno-mobx': path.resolve(require.resolve('inferno-mobx/dist/index.dev.esm.js')),
+      // 'inferno-redux': path.resolve(require.resolve('inferno-redux/dist/index.dev.esm.js')),
+      // 'inferno-router': path.resolve(require.resolve('inferno-router/dist/index.dev.esm.js')),
+      // 'inferno-server': path.resolve(require.resolve('inferno-server/dist/index.dev.esm.js')),
+      // 'inferno-test-utils': path.resolve(require.resolve('inferno-test-utils/dist/index.dev.esm.js')),
+      // 'inferno-vnode-flags': path.resolve(require.resolve('inferno-vnode-flags/dist/index.dev.esm.js'))
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
