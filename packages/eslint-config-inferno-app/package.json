@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-inferno-app",
-  "version": "6.2.2",
+  "version": "7.0.0",
   "description": "ESLint configuration used by Create Inferno App",
   "repository": "infernojs/create-inferno-app",
   "license": "BSD-3-Clause",
@@ -15,8 +15,8 @@
     "eslint": "5.x",
     "eslint-plugin-flowtype": "2.x",
     "eslint-plugin-import": "2.x",
-    "eslint-plugin-jsx-a11y": "6.x",
-    "eslint-plugin-inferno": "^7"
+    "eslint-plugin-inferno": "^7",
+    "eslint-plugin-jsx-a11y": "6.x"
   },
   "dependencies": {
     "confusing-browser-globals": "^1.0.3"
