@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "babel-eslint": "^10",
-    "confusing-browser-globals": "^1.0.3"
+    "confusing-browser-globals": "^1.0.5"
   }
 }
