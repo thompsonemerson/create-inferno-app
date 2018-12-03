@@ -26,7 +26,7 @@
     "@babel/plugin-transform-runtime": "7.2.0",
     "@babel/preset-env": "7.2.0",
     "@babel/runtime": "7.2.0",
-    "babel-plugin-inferno": "^6",
+    "babel-plugin-inferno": "^6.0.4",
     "babel-plugin-macros": "2.4.2",
     "babel-plugin-transform-dynamic-import": "2.1.0"
   }
