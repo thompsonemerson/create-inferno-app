@@ -1,6 +1,6 @@
 {
   "name": "inferno-error-overlay",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "description": "An overlay for displaying stack frames.",
   "main": "lib/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "babel-eslint": "10.0.1",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
-    "babel-preset-inferno-app": "^8.0.2",
+    "babel-preset-inferno-app": "^8.0.3",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
     "cross-env": "5.2.0",
