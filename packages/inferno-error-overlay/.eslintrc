@@ -1,0 +1,6 @@
+{
+  "extends": "inferno-app",
+  "rules": {
+    "curly": "warn"
+  }
+}

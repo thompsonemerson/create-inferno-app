@@ -1,5 +1,4 @@
-import { version } from 'inferno';
-import Component from 'inferno-component';
+import { version, Component } from 'inferno';
 import Logo from './logo';
 import './App.css';
 
@@ -7,13 +6,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
+        <header className="App-header">
           <Logo width="80" height="80" />
-          <h2>{`Welcome to Inferno ${version}`}</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+          <p>{`Welcome to Inferno ${version}`}</p>
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+        </header>
       </div>
     );
   }

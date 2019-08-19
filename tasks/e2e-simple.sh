@@ -1,10 +1,8 @@
 #!/bin/bash
 # Copyright (c) 2015-present, Facebook, Inc.
-# All rights reserved.
 #
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. An additional grant
-# of patent rights can be found in the PATENTS file in the same directory.
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
 # ******************************************************************************
 # This is an end-to-end test intended to run on CI.
@@ -14,17 +12,21 @@
 # Start in tasks/ even if run from root directory
 cd "$(dirname "$0")"
 
-# CLI and app temporary locations
+# App temporary location
 # http://unix.stackexchange.com/a/84980
-temp_cli_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_cli_path'`
 temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
+custom_registry_url=http://localhost:4873
+original_npm_registry_url=`npm get registry`
+original_yarn_registry_url=`yarn config get registry`
 
 function cleanup {
   echo 'Cleaning up.'
   cd "$root_path"
   # Uncomment when snapshot testing is enabled by default:
   # rm ./packages/inferno-scripts/template/src/__snapshots__/App.test.js.snap
-  rm -rf "$temp_cli_path" $temp_app_path
+  rm -rf "$temp_app_path"
+  npm set registry "$original_npm_registry_url"
+  yarn config set registry "$original_yarn_registry_url"
 }
 
 # Error messages are redirected to stderr
@@ -39,10 +41,6 @@ function handle_exit {
   cleanup
   echo 'Exiting without error.' 1>&2;
   exit
-}
-
-function create_inferno_app {
-  node "$temp_cli_path"/node_modules/create-inferno-app/index.js "$@"
 }
 
 # Check for the existence of one or more files.
@@ -65,39 +63,59 @@ set -x
 cd ..
 root_path=$PWD
 
-# Prevent lerna bootstrap, we only want top-level dependencies
-cp package.json package.json.bak
-grep -v "lerna bootstrap" package.json > temp && mv temp package.json
-npm install
-mv package.json.bak package.json
-
-# We need to install create-inferno-app deps to test it
-cd "$root_path"/packages/create-inferno-app
-npm install
-cd "$root_path"
-
-# If the node version is < 4, the script should just give an error.
-if [[ `node --version | sed -e 's/^v//' -e 's/\..*//g'` -lt 4 ]]
-then
-  cd $temp_app_path
-  err_output=`node "$root_path"/packages/create-inferno-app/index.js test-node-version 2>&1 > /dev/null || echo ''`
-  [[ $err_output =~ You\ are\ running\ Node ]] && exit 0 || exit 1
+# Make sure we don't introduce accidental references to PATENTS.
+EXPECTED='packages/inferno-error-overlay/fixtures/bundle.mjs
+packages/inferno-error-overlay/fixtures/bundle.mjs.map
+packages/inferno-error-overlay/fixtures/bundle_u.mjs
+packages/inferno-error-overlay/fixtures/bundle_u.mjs.map
+tasks/e2e-simple.sh'
+ACTUAL=$(git grep -l PATENTS)
+if [ "$EXPECTED" != "$ACTUAL" ]; then
+  echo "PATENTS crept into some new files?"
+  diff -u <(echo "$EXPECTED") <(echo "$ACTUAL") || true
+  exit 1
 fi
 
-# Still use npm install instead of directly calling lerna bootstrap to test
-# postinstall script functionality (one npm install should result in a working
-# project)
-npm install
-
-if [ "$USE_YARN" = "yes" ]
+if hash npm 2>/dev/null
 then
-  # Install Yarn so that the test can use it to install packages.
-  npm install -g yarn
-  yarn cache clean
+  npm i -g npm@latest
 fi
+
+# Bootstrap monorepo
+yarn
+
+# Start local registry
+tmp_registry_log=`mktemp`
+(cd && nohup npx verdaccio@3.8.2 -c "$root_path"/tasks/verdaccio.yaml &>$tmp_registry_log &)
+# Wait for `verdaccio` to boot
+grep -q 'http address' <(tail -f $tmp_registry_log)
+
+# Set registry to local registry
+npm set registry "$custom_registry_url"
+yarn config set registry "$custom_registry_url"
+
+# Login so we can publish packages
+(cd && npx npm-auth-to-token@1.0.0 -u user -p password -e user@example.com -r "$custom_registry_url")
 
 # Lint own code
-./node_modules/.bin/eslint --max-warnings 0 .
+./node_modules/.bin/eslint --max-warnings 0 packages/babel-preset-inferno-app/
+./node_modules/.bin/eslint --max-warnings 0 packages/create-inferno-app/
+./node_modules/.bin/eslint --max-warnings 0 packages/eslint-config-inferno-app/
+./node_modules/.bin/eslint --max-warnings 0 packages/inferno-dev-utils/
+./node_modules/.bin/eslint --max-warnings 0 packages/inferno-scripts/
+cd packages/inferno-error-overlay/
+
+./node_modules/.bin/eslint --max-warnings 0 src/
+yarn test
+if [ $APPVEYOR != 'True' ]; then
+  # Flow started hanging on AppVeyor after we moved to Yarn Workspaces :-(
+  yarn flow
+fi
+cd ../..
+
+cd packages/inferno-dev-utils/
+yarn test
+cd ../..
 
 # ******************************************************************************
 # First, test the create-inferno-app development environment.
@@ -105,7 +123,7 @@ fi
 # ******************************************************************************
 
 # Test local build command
-npm run build
+yarn build
 # Check for expected output
 exists build/*.html
 exists build/static/js/*.js
@@ -113,55 +131,25 @@ exists build/static/css/*.css
 exists build/favicon.ico
 
 # Run tests with CI flag
-CI=true npm test
+CI=true yarn test
 # Uncomment when snapshot testing is enabled by default:
 # exists template/src/__snapshots__/App.test.js.snap
 
 # Test local start command
-npm start -- --smoke-test
+yarn start --smoke-test
+
+git clean -df
+./tasks/publish.sh --yes --force-publish=* --skip-git --cd-version=prerelease --exact --npm-tag=latest
 
 # ******************************************************************************
-# Next, pack inferno-scripts and create-inferno-app so we can verify they work.
+# Install inferno-scripts prerelease via create-inferno-app prerelease.
 # ******************************************************************************
-
-# Pack CLI
-cd "$root_path"/packages/create-inferno-app
-cli_path=$PWD/`npm pack`
-
-# Go to inferno-scripts
-cd "$root_path"/packages/inferno-scripts
-
-# Save package.json because we're going to touch it
-cp package.json package.json.orig
-
-# Replace own dependencies (those in the `packages` dir) with the local paths
-# of those packages.
-node "$root_path"/tasks/replace-own-deps.js
-
-# Finally, pack inferno-scripts
-scripts_path="$root_path"/packages/inferno-scripts/`npm pack`
-
-# Restore package.json
-rm package.json
-mv package.json.orig package.json
-
-# ******************************************************************************
-# Now that we have packed them, create a clean app folder and install them.
-# ******************************************************************************
-
-# Install the CLI in a temporary location
-cd "$temp_cli_path"
-
-# Initialize package.json before installing the CLI because npm will not install
-# the CLI properly in the temporary location if it is missing.
-npm init --yes
-
-# Now we can install the CLI from the local package.
-npm install "$cli_path"
 
 # Install the app in a temporary location
 cd $temp_app_path
-create_inferno_app --scripts-version="$scripts_path" test-app
+npx create-inferno-app test-app
+
+# TODO: verify we installed prerelease
 
 # ******************************************************************************
 # Now that we used create-inferno-app to create an app depending on inferno-scripts,
@@ -178,24 +166,24 @@ function verify_env_url {
   # Test relative path build
   awk -v n=2 -v s="  \"homepage\": \".\"," 'NR == n {print s} {print}' package.json > tmp && mv tmp package.json
 
-  npm run build
+  yarn build
   # Disabled until this can be tested
   # grep -F -R --exclude=*.map "../../static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"./static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
 
-  PUBLIC_URL="/anabsolute" npm run build
+  PUBLIC_URL="/anabsolute" yarn build
   grep -F -R --exclude=*.map "/anabsolute/static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
 
   # Test absolute path build
   sed "2s/.*/  \"homepage\": \"\/testingpath\",/" package.json > tmp && mv tmp package.json
 
-  npm run build
+  yarn build
   grep -F -R --exclude=*.map "/testingpath/static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
 
-  PUBLIC_URL="https://www.example.net/overridetest" npm run build
+  PUBLIC_URL="https://www.example.net/overridetest" yarn build
   grep -F -R --exclude=*.map "https://www.example.net/overridetest/static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
   grep -F -R --exclude=*.map "testingpath/static" build/ -q; test $? -eq 1 || exit 1
@@ -203,11 +191,11 @@ function verify_env_url {
   # Test absolute url build
   sed "2s/.*/  \"homepage\": \"https:\/\/www.example.net\/testingpath\",/" package.json > tmp && mv tmp package.json
 
-  npm run build
+  yarn build
   grep -F -R --exclude=*.map "/testingpath/static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
 
-  PUBLIC_URL="https://www.example.net/overridetest" npm run build
+  PUBLIC_URL="https://www.example.net/overridetest" yarn build
   grep -F -R --exclude=*.map "https://www.example.net/overridetest/static/" build/ -q; test $? -eq 0 || exit 1
   grep -F -R --exclude=*.map "\"/static/" build/ -q; test $? -eq 1 || exit 1
   grep -F -R --exclude=*.map "testingpath/static" build/ -q; test $? -eq 1 || exit 1
@@ -217,28 +205,51 @@ function verify_env_url {
   mv package.json.orig package.json
 }
 
+function verify_module_scope {
+  # Create stub json file
+  echo "{}" >> sample.json
+
+  # Save App.js, we're going to modify it
+  cp src/App.js src/App.js.bak
+
+  # Add an out of scope import
+  echo "import sampleJson from '../sample'" | cat - src/App.js > src/App.js.temp && mv src/App.js.temp src/App.js
+
+  # Make sure the build fails
+  yarn build; test $? -eq 1 || exit 1
+  # TODO: check for error message
+
+  rm sample.json
+
+  # Restore App.js
+  rm src/App.js
+  mv src/App.js.bak src/App.js
+}
+
 # Enter the app directory
 cd test-app
 
 # Test the build
-npm run build
+yarn build
 # Check for expected output
 exists build/*.html
 exists build/static/js/*.js
 exists build/static/css/*.css
-exists build/static/media/*.svg
 exists build/favicon.ico
 
 # Run tests with CI flag
-CI=true npm test
+CI=true yarn test
 # Uncomment when snapshot testing is enabled by default:
 # exists src/__snapshots__/App.test.js.snap
 
 # Test the server
-npm start -- --smoke-test
+yarn start --smoke-test
 
 # Test environment handling
 verify_env_url
+
+# Test reliance on webpack internals
+verify_module_scope
 
 # ******************************************************************************
 # Finally, let's check that everything still works after ejecting.
@@ -247,33 +258,30 @@ verify_env_url
 # Eject...
 echo yes | npm run eject
 
-# ...but still link to the local packages
-npm link "$root_path"/packages/babel-preset-inferno-app
-npm link "$root_path"/packages/eslint-config-inferno-app
-npm link "$root_path"/packages/inferno-dev-utils
-npm link "$root_path"/packages/inferno-scripts
-
 # Test the build
-npm run build
+yarn build
 # Check for expected output
 exists build/*.html
 exists build/static/js/*.js
 exists build/static/css/*.css
 exists build/favicon.ico
 
-# Run tests, overring the watch option to disable it.
-# `CI=true npm test` won't work here because `npm test` becomes just `jest`.
+# Run tests, overriding the watch option to disable it.
+# `CI=true yarn test` won't work here because `yarn test` becomes just `jest`.
 # We should either teach Jest to respect CI env variable, or make
 # `scripts/test.js` survive ejection (right now it doesn't).
-npm test -- --watch=no
+yarn test --watch=no
 # Uncomment when snapshot testing is enabled by default:
 # exists src/__snapshots__/App.test.js.snap
 
 # Test the server
-npm start -- --smoke-test
+yarn start --smoke-test
 
 # Test environment handling
 verify_env_url
+
+# Test reliance on webpack internals
+verify_module_scope
 
 # Cleanup
 cleanup

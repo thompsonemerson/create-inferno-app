@@ -1,10 +1,8 @@
 #!/bin/bash
 # Copyright (c) 2015-present, Facebook, Inc.
-# All rights reserved.
 #
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. An additional grant
-# of patent rights can be found in the PATENTS file in the same directory.
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
 # ******************************************************************************
 # This is an end-to-end test intended to run on CI.
@@ -16,13 +14,17 @@ cd "$(dirname "$0")"
 
 # CLI and app temporary locations
 # http://unix.stackexchange.com/a/84980
-temp_cli_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_cli_path'`
 temp_app_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_app_path'`
+custom_registry_url=http://localhost:4873
+original_npm_registry_url=`npm get registry`
+original_yarn_registry_url=`yarn config get registry`
 
 function cleanup {
   echo 'Cleaning up.'
   cd "$root_path"
-  rm -rf "$temp_cli_path" "$temp_app_path"
+  rm -rf "$temp_app_path"
+  npm set registry "$original_npm_registry_url"
+  yarn config set registry "$original_yarn_registry_url"
 }
 
 # Error messages are redirected to stderr
@@ -49,23 +51,12 @@ function exists {
 # Check for accidental dependencies in package.json
 function checkDependencies {
   if ! awk '/"dependencies": {/{y=1;next}/},/{y=0; next}y' package.json | \
-  grep -v -q -E '^\s*"react(-dom|-scripts)?"'; then
+  grep -v -q -E '^\s*"inferno(-dom|-scripts)?"'; then
    echo "Dependencies are correct"
   else
    echo "There are extraneous dependencies in package.json"
    exit 1
   fi
-
-
-  if ! awk '/"devDependencies": {/{y=1;next}/},/{y=0; next}y' package.json | \
-  grep -v -q -E '^\s*"react(-dom|-scripts)?"'; then
-   echo "Dev Dependencies are correct"
-  else
-   echo "There are extraneous devDependencies in package.json"
-   exit 1
-  fi
-}
-
 }
 
 # Exit the script with a helpful error message when any error is encountered
@@ -81,38 +72,72 @@ set -x
 cd ..
 root_path=$PWD
 
-npm install
-
-if [ "$USE_YARN" = "yes" ]
+if hash npm 2>/dev/null
 then
-  # Install Yarn so that the test can use it to install packages.
-  npm install -g yarn
-  yarn cache clean
+  npm i -g npm@latest
 fi
 
+# Bootstrap monorepo
+yarn
+
 # ******************************************************************************
-# First, pack and install create-inferno-app.
+# First, publish the monorepo.
 # ******************************************************************************
 
-# Pack CLI
-cd "$root_path"/packages/create-inferno-app
-cli_path=$PWD/`npm pack`
+# Start local registry
+tmp_registry_log=`mktemp`
+(cd && nohup npx verdaccio@3.8.2 -c "$root_path"/tasks/verdaccio.yaml &>$tmp_registry_log &)
+# Wait for `verdaccio` to boot
+grep -q 'http address' <(tail -f $tmp_registry_log)
 
-# Install the CLI in a temporary location
-cd "$temp_cli_path"
-npm install "$cli_path"
+# Set registry to local registry
+npm set registry "$custom_registry_url"
+yarn config set registry "$custom_registry_url"
+
+# Login so we can publish packages
+(cd && npx npm-auth-to-token@1.0.0 -u user -p password -e user@example.com -r "$custom_registry_url")
+
+# Publish the monorepo
+git clean -df
+./tasks/publish.sh --yes --force-publish=* --skip-git --cd-version=prerelease --exact --npm-tag=latest
+
+# ******************************************************************************
+# Test --scripts-version with a distribution tag
+# ******************************************************************************
+
+cd "$temp_app_path"
+npx create-react-app --scripts-version=@latest test-app-dist-tag
+cd test-app-dist-tag
+
+# Check corresponding scripts version is installed.
+exists node_modules/react-scripts
+checkDependencies
 
 # ******************************************************************************
 # Test --scripts-version with a version number
 # ******************************************************************************
 
 cd "$temp_app_path"
-create_inferno_app --scripts-version=0.4.0 test-app-version-number
+npx create-inferno-app --scripts-version=1.0.17 test-app-version-number
 cd test-app-version-number
 
 # Check corresponding scripts version is installed.
+exists node_modules/react-scripts
+grep '"version": "1.0.17"' node_modules/react-scripts/package.json
+checkDependencies
+
+# ******************************************************************************
+# Test --use-npm flag
+# ******************************************************************************
+
+cd "$temp_app_path"
+npx create-inferno-app --use-npm --scripts-version=1.0.17 test-use-npm-flag
+cd test-use-npm-flag
+
+# Check corresponding scripts version is installed.
 exists node_modules/inferno-scripts
-grep '"version": "0.4.0"' node_modules/inferno-scripts/package.json
+[ ! -e "yarn.lock" ] && echo "yarn.lock correctly does not exist"
+grep '"version": "1.0.17"' node_modules/react-scripts/package.json
 checkDependencies
 
 # ******************************************************************************
@@ -145,9 +170,10 @@ exists node_modules/inferno-scripts-fork
 
 cd "$temp_app_path"
 # we will install a non-existing package to simulate a failed installataion.
-create_inferno_app --scripts-version=`date +%s` test-app-should-not-exist || true
-# confirm that the project folder was deleted
-test ! -d test-app-should-not-exist
+npx create-inferno-app --scripts-version=`date +%s` test-app-should-not-exist || true
+# confirm that the project files were deleted
+test ! -e test-app-should-not-exist/package.json
+test ! -d test-app-should-not-exist/node_modules
 
 # ******************************************************************************
 # Test project folder is not deleted when creating app over existing folder
@@ -157,11 +183,11 @@ cd "$temp_app_path"
 mkdir test-app-should-remain
 echo '## Hello' > ./test-app-should-remain/README.md
 # we will install a non-existing package to simulate a failed installataion.
-create_inferno_app --scripts-version=`date +%s` test-app-should-remain || true
+npx create-inferno-app --scripts-version=`date +%s` test-app-should-remain || true
 # confirm the file exist
 test -e test-app-should-remain/README.md
-# confirm only README.md is the only file in the directory
-if [ "$(ls -1 ./test-app-should-remain | wc -l | tr -d '[:space:]')" != "1" ]; then
+# confirm only README.md and error log are the only files in the directory
+if [ "$(ls -1 ./test-app-should-remain | wc -l | tr -d '[:space:]')" != "2" ]; then
   false
 fi
 
@@ -171,7 +197,7 @@ fi
 
 cd $temp_app_path
 curl "https://registry.npmjs.org/@enoah_netzach/inferno-scripts/-/inferno-scripts-0.9.0.tgz" -o enoah-scripts-0.9.0.tgz
-create_inferno_app --scripts-version=$temp_app_path/enoah-scripts-0.9.0.tgz test-app-scoped-fork-tgz
+npx create-inferno-app --scripts-version=$temp_app_path/enoah-scripts-0.9.0.tgz test-app-scoped-fork-tgz
 cd test-app-scoped-fork-tgz
 
 # Check corresponding scripts version is installed.
@@ -186,22 +212,33 @@ cd "$temp_app_path"
 mkdir test-app-nested-paths-t1
 cd test-app-nested-paths-t1
 mkdir -p test-app-nested-paths-t1/aa/bb/cc/dd
-create_inferno_app test-app-nested-paths-t1/aa/bb/cc/dd
+npx create-inferno-app test-app-nested-paths-t1/aa/bb/cc/dd
 cd test-app-nested-paths-t1/aa/bb/cc/dd
-npm start -- --smoke-test
+yarn start --smoke-test
 
 # Testing a path that does not exist
 cd "$temp_app_path"
-create_inferno_app test-app-nested-paths-t2/aa/bb/cc/dd
+npx create-inferno-app test-app-nested-paths-t2/aa/bb/cc/dd
 cd test-app-nested-paths-t2/aa/bb/cc/dd
-npm start -- --smoke-test
+yarn start --smoke-test
 
 # Testing a path that is half exists
 cd "$temp_app_path"
 mkdir -p test-app-nested-paths-t3/aa
-create_inferno_app test-app-nested-paths-t3/aa/bb/cc/dd
+npx create-inferno-app test-app-nested-paths-t3/aa/bb/cc/dd
 cd test-app-nested-paths-t3/aa/bb/cc/dd
-npm start -- --smoke-test
+yarn start --smoke-test
+
+# ******************************************************************************
+# Test when PnP is enabled
+# ******************************************************************************
+cd "$temp_app_path"
+npx create-react-app test-app-pnp --use-pnp
+cd test-app-pnp
+! exists node_modules
+exists .pnp.js
+yarn start --smoke-test
+yarn build
 
 # Cleanup
 cleanup

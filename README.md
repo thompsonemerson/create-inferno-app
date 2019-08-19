@@ -4,7 +4,8 @@ Note: this is a port of the awesome [Create React App](https://github.com/facebo
 
 Create Inferno apps with no build configuration.
 
-* [Getting Started](#getting-started) – How to create a new app.
+- [Creating an App](#creating-an-app) – How to create a new app.
+
 * [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md) – How to develop apps bootstrapped with Create Inferno App.
 
 Create Inferno App works on macOS, Windows, and Linux.<br>
@@ -13,17 +14,19 @@ If something doesn’t work please [file an issue](https://github.com/infernojs/
 ## Quick Overview
 
 ```sh
-npm install -g create-inferno-app
-
-create-inferno-app my-app
-cd my-app/
+npx create-inferno-app my-app
+cd my-app
 npm start
 ```
+
+_([npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) comes with npm 5.2+ and higher, see [instructions for older npm versions](https://gist.github.com/gaearon/4064d3c23a77c74a3614c498a8bb1c5f))_
 
 Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
 When you’re ready to deploy to production, create a minified bundle with `npm run build`.
 
-<img src='https://camo.githubusercontent.com/506a5a0a33aebed2bf0d24d3999af7f582b31808/687474703a2f2f692e696d6775722e636f6d2f616d794e66434e2e706e67' width='600' alt='npm start'>
+<p align='center'>
+<img src='https://cdn.rawgit.com/facebook/create-react-app/27b42ac/screencast.svg' width='600' alt='npm start'>
+</p>
 
 ### Get Started Immediately
 
@@ -32,69 +35,84 @@ They are preconfigured and hidden so that you can focus on the code.
 
 Just create a project, and you’re good to go.
 
-## Getting Started
+## Creating an App
 
-### Installation
+**You’ll need to have Node >= 6 on your local development machine** (but it’s not required on the server). You can use [nvm](https://github.com/creationix/nvm#installation) (macOS/Linux) or [nvm-windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows) to easily switch Node versions between different projects.
 
-Install it once globally:
+To create a new app, you may choose one of the following methods:
 
-```sh
-npm install -g create-inferno-app
-```
-
-**You’ll need to have Node >= 4 on your machine**.
-
-**We strongly recommend to use Node >= 6 and npm >= 3 for faster installation speed and better disk usage.** You can use [nvm](https://github.com/creationix/nvm#usage) to easily switch Node versions between different projects.
-
-**This tool doesn’t assume a Node backend**. The Node installation is only required for Create React App itself.
-
-### Creating an App
-
-To create a new app, run:
+### npx
 
 ```sh
-create-inferno-app my-app
-cd my-app
+npx create-inferno-app my-app
 ```
+
+_([npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) comes with npm 5.2+ and higher, see [instructions for older npm versions](https://gist.github.com/gaearon/4064d3c23a77c74a3614c498a8bb1c5f))_
+
+### npm
+
+```sh
+npm init react-app my-app
+```
+
+_`npm init <initializer>` is available in npm 6+_
+
+### Yarn
+
+```sh
+yarn create react-app my-app
+```
+
+_`yarn create` is available in Yarn 0.25+_
 
 It will create a directory called `my-app` inside the current folder.<br>
 Inside that directory, it will generate the initial project structure and install the transitive dependencies:
 
 ```
-my-app/
-  README.md
-  node_modules/
-  package.json
-  .gitignore
-  public/
-    favicon.ico
-    index.html
-  src/
-    App.css
-    App.js
-    App.test.js
-    index.css
-    index.js
-    logo.svg
+my-app
+├── README.md
+├── node_modules
+├── package.json
+├── .gitignore
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+└── src
+    ├── App.css
+    ├── App.js
+    ├── App.test.js
+    ├── index.css
+    ├── index.js
+    ├── logo.svg
+    └── serviceWorker.js
 ```
 
 No configuration or complicated folder structures, just the files you need to build your app.<br>
-Once the installation is done, you can run some commands inside the project folder:
+Once the installation is done, you can open your project folder:
+
+```sh
+cd my-app
+```
+
+Inside the newly created project, you can run some built-in commands:
 
 ### `npm start` or `yarn start`
 
 Runs the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
+The page will automatically reload if you make changes to the code.<br>
 You will see the build errors and lint warnings in the console.
 
-<img src='https://camo.githubusercontent.com/41678b3254cf583d3186c365528553c7ada53c6e/687474703a2f2f692e696d6775722e636f6d2f466e4c566677362e706e67' width='600' alt='Build errors'>
+<p align='center'>
+<img src='https://cdn.rawgit.com/marionebl/create-react-app/9f62826/screencast-error.svg' width='600' alt='Build errors'>
+</p>
 
 ### `npm test` or `yarn test`
 
 Runs the test watcher in an interactive mode.<br>
-By default, runs tests related to files changes since the last commit.
+By default, runs tests related to files changed since the last commit.
 
 [Read more about testing.](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#running-tests)
 
@@ -104,43 +122,59 @@ Builds the app for production to the `build` folder.<br>
 It correctly bundles Inferno in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+By default, it also [includes a service worker](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#making-a-progressive-web-app) so that your app loads from local cache on future visits.
+
+Your app is ready to be deployed.
 
 ## Usage with Inferno (through inferno-compat)
 
-You can use Inferno components with create-inferno-app. All you have is to do is install inferno-compat (npm install --save inferno-compat) and Inferno and InfernoDOM will be already aliased to inferno-compat. After installing it you can import any Inferno dependent library or use any code that imports Inferno and that should work fine.
+You can use React components with create-inferno-app. All you have is to do is install inferno-compat (npm install --save inferno-compat) and React and ReactDOM will be already aliased to inferno-compat. After installing it you can import any React dependent library or use any code that imports React and that should work fine.
 
 ## User Guide
 
-The [User Guide](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md) includes information on different topics, such as:
+(note: Links point to upstream, React)
 
-- [Updating to New Releases](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#updating-to-new-releases)
-- [Folder Structure](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#folder-structure)
-- [Available Scripts](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#available-scripts)
-- [Supported Language Features and Polyfills](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#supported-language-features-and-polyfills)
-- [Syntax Highlighting in the Editor](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#syntax-highlighting-in-the-editor)
-- [Installing a Dependency](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#installing-a-dependency)
-- [Debugging in the Editor](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#debugging-in-the-editor)
-- [Changing the Page `<title>`](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#changing-the-page-title)
-- [Adding a Stylesheet](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-a-stylesheet)
-- [Post-Processing CSS](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#post-processing-css)
-- [Adding Images and Fonts](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-images-and-fonts)
-- [Using the `public` Folder](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#using-the-public-folder)
-- [Adding a CSS Preprocessor (Sass, Less etc.)](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc)
-- [Adding Images, Fonts, and Files](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-images-fonts-and-files)
-- [Using Global Variables](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#using-global-variables)
-- [Can I Use Decorators?](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#can-i-use-decorators)
-- [Integrating with a Node Backend](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#integrating-with-a-node-backend)
-- [Proxying API Requests in Development](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#proxying-api-requests-in-development)
-- [Using HTTPS in Development](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#using-https-in-development)
-- [Integrating with an API Backend](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#integrating-with-an-api-backend)
-- [Running Tests](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#running-tests)
-- [Deployment](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#deployment)
-- [Pre-Rendering into Static HTML Files](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#pre-rendering-into-static-html-files)
-- [Developing Components in Isolation](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#developing-components-in-isolation)
-- [Making a Progressive Web App](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#making-a-progressive-web-app)
-- [Advanced Configuration](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#advanced-configuration)
-- [Troubleshooting](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#troubleshooting)
+- [Updating to New Releases](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#updating-to-new-releases)
+- [Folder Structure](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#folder-structure)
+- [Available Scripts](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#available-scripts)
+- [Supported Browsers](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#supported-browsers)
+- [Supported Language Features and Polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#supported-language-features)
+- [Syntax Highlighting in the Editor](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#syntax-highlighting-in-the-editor)
+- [Displaying Lint Output in the Editor](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#displaying-lint-output-in-the-editor)
+- [Formatting Code Automatically](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#formatting-code-automatically)
+- [Debugging in the Editor](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#debugging-in-the-editor)
+- [Changing the Page `<title>`](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#changing-the-page-title)
+- [Installing a Dependency](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#installing-a-dependency)
+- [Importing a Component](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#importing-a-component)
+- [Code Splitting](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#code-splitting)
+- [Adding a Stylesheet](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-stylesheet)
+- [Adding a Sass Stylesheet](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-sass-stylesheet)
+- [Adding a CSS Modules Stylesheet](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-css-modules-stylesheet)
+- [Post-Processing CSS](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#post-processing-css)
+- [Adding Images, Fonts, and Files](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-images-fonts-and-files)
+- [Adding SVGs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-svgs)
+- [Using the `public` Folder](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#using-the-public-folder)
+- [Using Global Variables](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#using-global-variables)
+- [Adding Bootstrap](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-bootstrap)
+- [Adding Flow](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-flow)
+- [Adding a Router](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-router)
+- [Adding Custom Environment Variables](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables)
+- [Can I Use Decorators?](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#can-i-use-decorators)
+- [Fetching Data with AJAX Requests](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#fetching-data-with-ajax-requests)
+- [Integrating with an API Backend](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#integrating-with-an-api-backend)
+- [Proxying API Requests in Development](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development)
+- [Using HTTPS in Development](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#using-https-in-development)
+- [Generating Dynamic `<meta>` Tags on the Server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#generating-dynamic-meta-tags-on-the-server)
+- [Pre-Rendering into Static HTML Files](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#pre-rendering-into-static-html-files)
+- [Running Tests](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#running-tests)
+- [Debugging Tests](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#debugging-tests)
+- [Developing Components in Isolation](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#developing-components-in-isolation)
+- [Publishing Components to npm](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#publishing-components-to-npm)
+- [Making a Progressive Web App](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#making-a-progressive-web-app)
+- [Analyzing the Bundle Size](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#analyzing-the-bundle-size)
+- [Deployment](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment)
+- [Advanced Configuration](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#advanced-configuration)
+- [Troubleshooting](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#troubleshooting-1)
 
 A copy of the user guide will be created as `README.md` in your project folder.
 
@@ -150,78 +184,75 @@ Please refer to the [User Guide](https://github.com/infernojs/create-inferno-app
 
 ## Philosophy
 
-* **One Dependency:** There is just one build dependency. It uses Webpack, Babel, ESLint, and other amazing projects, but provides a cohesive curated experience on top of them.
+- **One Dependency:** There is just one build dependency. It uses Webpack, Babel, ESLint, and other amazing projects, but provides a cohesive curated experience on top of them.
 
-* **No Configuration Required:** You don't need to configure anything. Reasonably good configuration of both development and production builds is handled for you so you can focus on writing code.
+- **No Configuration Required:** You don't need to configure anything. Reasonably good configuration of both development and production builds is handled for you so you can focus on writing code.
 
-* **No Lock-In:** You can “eject” to a custom setup at any time. Run a single command, and all the configuration and build dependencies will be moved directly into your project, so you can pick up right where you left off.
+- **No Lock-In:** You can “eject” to a custom setup at any time. Run a single command, and all the configuration and build dependencies will be moved directly into your project, so you can pick up right where you left off.
 
-## Why Use This?
+## What’s Included?
 
-**If you’re getting started** with Inferno, use `create-inferno-app` to automate the build of your app. There is no configuration file, and `inferno-scripts` is the only extra build dependency in your `package.json`. Your environment will have everything you need to build a modern Inferno app:
+Your environment will have everything you need to build a modern single-page Inferno app:
 
-* Inferno, JSX, ES6, and Flow syntax support.
+- Inferno, JSX, ES6, and Flow syntax support.
+
 * Language extras beyond ES6 like the object spread operator.
-* A dev server that lints for common errors.
-* Import CSS and image files directly from JavaScript.
-* Autoprefixed CSS, so you don’t need `-webkit` or other prefixes.
-* A `build` script to bundle JS, CSS, and images for production, with sourcemaps.
+* Autoprefixed CSS, so you don’t need `-webkit-` or other prefixes.
+* A fast interactive unit test runner with built-in support for coverage reporting.
+* A live development server that warns about common mistakes.
+* A build script to bundle JS, CSS, and images for production, with hashes and sourcemaps.
+* An offline-first [service worker](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers) and a [web app manifest](https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/), meeting all the [Progressive Web App](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#making-a-progressive-web-app) criteria. (_Note: Using the service worker is opt-in as of `react-scripts@2.0.0` and higher_)
+* Hassle-free updates for the above tools with a single dependency.
 
-**The feature set is intentionally limited**. It doesn’t support advanced features such as server rendering or CSS modules. The tool is also **non-configurable** because it is hard to provide a cohesive experience and easy updates across a set of tools when the user can tweak anything.
+Check out [this guide](https://github.com/nitishdayal/cra_closer_look) for an overview of how these tools fit together.
 
-**You don’t have to use this.** Historically it has been easy to gradually adopt Inferno. However many people create new single-page Inferno apps from scratch every day. We’ve heard loud and clear that this process can be error-prone and tedious, especially if this is your first JavaScript build stack. This project is an attempt to figure out a good way to start developing Inferno apps.
+The tradeoff is that **these tools are preconfigured to work in a specific way**. If your project needs more customization, you can ["eject"](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-run-eject) and customize it, but then you will need to maintain this configuration.
 
-### Converting to a Custom Setup
+## Popular Alternatives
 
-**If you’re a power user** and you aren’t happy with the default configuration, you can “eject” from the tool and use it as a boilerplate generator.
+Create React App is a great fit for:
 
-Running `npm run eject` copies all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. Commands like `npm start` and `npm run build` will still work, but they will point to the copied scripts so you can tweak them. At this point, you’re on your own.
+- **Learning React** in a comfortable and feature-rich development environment.
+- **Starting new single-page React applications.**
+- **Creating examples** with React for your libraries and components.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Here’s a few common cases where you might want to try something else:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- If you want to **try React** without hundreds of transitive build tool dependencies, consider [using a single HTML file or an online sandbox instead](https://reactjs.org/docs/try-react.html).
 
-## Limitations
+- If you need to **integrate React code with a server-side template framework** like Rails or Django, or if you’re **not building a single-page app**, consider using [nwb](https://github.com/insin/nwb), or [Neutrino](https://neutrino.js.org/) which are more flexible. For Rails specifically, you can use [Rails Webpacker](https://github.com/rails/webpacker).
 
-Some features are currently **not supported**:
+- If you need to **publish a React component**, [nwb](https://github.com/insin/nwb) can [also do this](https://github.com/insin/nwb#react-components-and-libraries), as well as [Neutrino's react-components preset](https://neutrino.js.org/packages/react-components/).
 
-* Server rendering.
-* Some experimental syntax extensions (e.g. decorators).
-* CSS Modules.
-* Importing LESS or Sass directly ([but you still can use them](https://github.com/infernojs/create-inferno-app/blob/master/packages/inferno-scripts/template/README.md#adding-a-css-preprocessor-sass-less-etc)).
-* Hot reloading of components.
+- If you want to do **server rendering** with React and Node.js, check out [Next.js](https://github.com/zeit/next.js/) or [Razzle](https://github.com/jaredpalmer/razzle). Create React App is agnostic of the backend, and just produces static HTML/JS/CSS bundles.
 
-Some of them might get added in the future if they are stable, are useful to majority of Inferno apps, don’t conflict with existing tools, and don’t introduce additional configuration.
+- If your website is **mostly static** (for example, a portfolio or a blog), consider using [Gatsby](https://www.gatsbyjs.org/) instead. Unlike Create React App, it pre-renders the website into HTML at the build time.
 
-## What’s Inside?
+- If you want to use **TypeScript**, consider using [create-react-app-typescript](https://github.com/wmonk/create-react-app-typescript).
 
-The tools used by Create Inferno App are subject to change.
-Currently it is a thin layer on top of many amazing community projects, such as:
+- Finally, if you need **more customization**, check out [Neutrino](https://neutrino.js.org/) and its [React preset](https://neutrino.js.org/packages/react/).
 
-* [webpack](https://webpack.github.io/) with [webpack-dev-server](https://github.com/webpack/webpack-dev-server), [html-webpack-plugin](https://github.com/ampedandwired/html-webpack-plugin) and [style-loader](https://github.com/webpack/style-loader)
-* [Babel](http://babeljs.io/) with ES6 and extensions used by Facebook (JSX, [object spread](https://github.com/sebmarkbage/ecmascript-rest-spread/commits/master), [class properties](https://github.com/jeffmo/es-class-public-fields))
-* [Autoprefixer](https://github.com/postcss/autoprefixer)
-* [ESLint](http://eslint.org/)
-* [Jest](http://facebook.github.io/jest)
-* and others.
+All of the above tools can work with little to no configuration.
 
-All of them are transitive dependencies of the provided npm package.
+If you prefer configuring the build yourself, [follow this guide](https://reactjs.org/docs/add-react-to-an-existing-app.html).
 
 ## Contributing
 
 We'd love to have your helping hand on `create-inferno-app`! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information on what we're looking for and how to get started.
 
-## React Native
+## Inferno Native
 
-Looking for something similar, but for React Native?<br>
-Check out [Create React Native App](https://github.com/react-community/create-react-native-app/).
+Looking for something similar, but for Inferno Native?<br>
+Check out [Create Inferno Native App](https://github.com/inferno-community/create-inferno-native-app/).
 
 ## Acknowledgements
 
 We are grateful to the authors of existing related projects for their ideas and collaboration:
 
-* [@eanplatter](https://github.com/eanplatter)
-* [@insin](https://github.com/insin)
-* [@mxstbr](https://github.com/mxstbr)
+- [@eanplatter](https://github.com/eanplatter)
+- [@insin](https://github.com/insin)
+- [@mxstbr](https://github.com/mxstbr)
 
-* [mozilla-neutrino/neutrino-dev](https://github.com/mozilla-neutrino/neutrino-dev)
+## License
+
+Create React App is open source software [licensed as MIT](https://github.com/facebook/create-react-app/blob/master/LICENSE).
